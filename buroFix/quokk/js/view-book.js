@@ -162,27 +162,55 @@
           inputs.forEach((input) => input.addEventListener('change', commit));
         }
       } else if (trigger === 'scenario') {
-        const options = block._chatAnswer?.querySelectorAll('[data-scenario-option]') || [];
-        options.forEach((btn) => {
-          btn.addEventListener('click', () => {
-            const key = btn.dataset.scenarioOption;
-            if (!key) return;
-            if (activeScenario && activeScenario !== key) {
-              pruneSummaryForScenario(key);
-            }
-            highlightScenarioChoice(options, btn);
-            const label = btn.dataset.optionLabel || btn.textContent.trim();
-            if (block.dataset.completed === '1') {
-              renderEcho(block, label);
-              updateSummary(block, label);
-            } else {
-              const nextBlock = completeBlock(block, label);
-              scheduleNext(nextBlock);
-            }
-            activateScenario(key);
-            scrollToLatest(btn.closest('.chat-message') || btn);
+        const inputOptions =
+          block._chatAnswer?.querySelectorAll('input[type="radio"][data-scenario-option]') || [];
+        if (inputOptions.length) {
+          inputOptions.forEach((input) => {
+            input.addEventListener('change', () => {
+              if (!input.checked) return;
+              const key = input.dataset.scenarioOption;
+              if (!key) return;
+              if (activeScenario && activeScenario !== key) {
+                pruneSummaryForScenario(key);
+              }
+              const label =
+                input.dataset.optionLabel ||
+                input.closest('label')?.innerText.trim() ||
+                input.value;
+              if (block.dataset.completed === '1') {
+                renderEcho(block, label);
+                updateSummary(block, label);
+              } else {
+                const nextBlock = completeBlock(block, label);
+                scheduleNext(nextBlock);
+              }
+              activateScenario(key);
+              scrollToLatest(input.closest('.chat-message') || input);
+            });
           });
-        });
+        } else {
+          const options = block._chatAnswer?.querySelectorAll('[data-scenario-option]') || [];
+          options.forEach((btn) => {
+            btn.addEventListener('click', () => {
+              const key = btn.dataset.scenarioOption;
+              if (!key) return;
+              if (activeScenario && activeScenario !== key) {
+                pruneSummaryForScenario(key);
+              }
+              highlightScenarioChoice(options, btn);
+              const label = btn.dataset.optionLabel || btn.textContent.trim();
+              if (block.dataset.completed === '1') {
+                renderEcho(block, label);
+                updateSummary(block, label);
+              } else {
+                const nextBlock = completeBlock(block, label);
+                scheduleNext(nextBlock);
+              }
+              activateScenario(key);
+              scrollToLatest(btn.closest('.chat-message') || btn);
+            });
+          });
+        }
       } else if (trigger === 'identity') {
         setupIdentityBlock(block);
       }

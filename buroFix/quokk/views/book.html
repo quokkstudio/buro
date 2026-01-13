@@ -59,11 +59,23 @@
     <div class="chat-message chat-message--client chat-message--input chat-message--scenario" data-chat-answer>
       <div class="chat-card">
         <p class="chat-card__label">원하는 상담</p>
-        <div class="chat-card__options chat-card__options--buttons">
-          <button type="button" class="chat-option-btn" data-scenario-option="lookbook">룩북 촬영</button>
-          <button type="button" class="chat-option-btn" data-scenario-option="contents">콘텐츠 촬영</button>
-          <button type="button" class="chat-option-btn" data-scenario-option="product">제품 촬영</button>
-          <button type="button" class="chat-option-btn" data-scenario-option="website">웹사이트 제작</button>
+        <div class="chat-card__options">
+          <label class="chat-option">
+            <input type="radio" name="scenario" value="룩북 촬영" data-scenario-option="lookbook">
+            <span>룩북 촬영</span>
+          </label>
+          <label class="chat-option">
+            <input type="radio" name="scenario" value="콘텐츠 촬영" data-scenario-option="contents">
+            <span>콘텐츠 촬영</span>
+          </label>
+          <label class="chat-option">
+            <input type="radio" name="scenario" value="제품 촬영" data-scenario-option="product">
+            <span>제품 촬영</span>
+          </label>
+          <label class="chat-option">
+            <input type="radio" name="scenario" value="웹사이트 제작" data-scenario-option="website">
+            <span>웹사이트 제작</span>
+          </label>
         </div>
       </div>
     </div>
