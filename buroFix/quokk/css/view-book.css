@@ -410,7 +410,7 @@
 
 .chat-message--client .chat-card {
   margin-left: auto;
-  min-width: min(420px, 78%);
+  min-width: min(360px, 40%);
   width: fit-content;
   max-width: min(640px, 92%);
 }
