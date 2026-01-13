@@ -209,10 +209,6 @@ margin-top:12px;
   background-color: var(--floor-bg);
 }
 
-body[data-quok-main="home"] .quok-main{
-  padding: 0;
-}
-
 .quok-main.mode-project > *{ min-width: 0; }
 
 /* ✅ 상세(프로덕트)일 때 메인 배경을 카드색으로 맞춰 톤 차이 제거 */
