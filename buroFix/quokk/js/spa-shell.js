@@ -30,9 +30,13 @@
 
     let layoutSyncTimer = null;
     let lastGnbStack = 0;
+    const getViewportHeight = () => {
+      const vv = window.visualViewport;
+      return Math.round((vv && vv.height) || window.innerHeight || document.documentElement.clientHeight);
+    };
+
     let lastViewportW = window.innerWidth;
-    let lastViewportH = window.innerHeight;
-    let stableViewportH = window.innerHeight;
+    let lastViewportH = getViewportHeight();
     const scheduleLayoutSync = () => {
       syncShellLayout();
       requestAnimationFrame(syncShellLayout);
@@ -42,15 +46,12 @@
 
     const syncShellLayout = () => {
       const currentW = window.innerWidth;
-      const currentH = window.innerHeight;
-      if (currentW !== lastViewportW) {
-        stableViewportH = currentH;
-      } else if (!stableViewportH) {
-        stableViewportH = currentH;
-      } else {
-        stableViewportH = Math.min(stableViewportH, currentH);
+      const currentH = getViewportHeight();
+      if (currentW !== lastViewportW || currentH !== lastViewportH) {
+        document.documentElement.style.setProperty("--quok-vh", `${currentH * 0.01}px`);
+        lastViewportW = currentW;
+        lastViewportH = currentH;
       }
-      document.documentElement.style.setProperty("--quok-vh", `${stableViewportH * 0.01}px`);
 
       const SPA_WRAP =
         document.querySelector(".quok-spa-wrap") ||
@@ -73,8 +74,8 @@
       if (gnbEl) {
         const gnbRect = gnbEl.getBoundingClientRect();
         const gnbHeight = Math.max(0, Math.ceil(gnbRect.height));
-        const gnbBottomGap = Math.max(0, Math.ceil(window.innerHeight - gnbRect.bottom));
-        const gnbStackA = Math.max(0, Math.ceil(window.innerHeight - gnbRect.top));
+        const gnbBottomGap = Math.max(0, Math.ceil(currentH - gnbRect.bottom));
+        const gnbStackA = Math.max(0, Math.ceil(currentH - gnbRect.top));
         const gnbStackB = gnbHeight + gnbBottomGap;
         const fallback =
           parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--gnb-h")) || 70;
@@ -105,6 +106,10 @@
     window.addEventListener("resize", syncShellLayout, { passive: true });
     window.addEventListener("orientationchange", syncShellLayout, { passive: true });
     window.addEventListener("load", syncShellLayout);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", syncShellLayout, { passive: true });
+      window.visualViewport.addEventListener("scroll", syncShellLayout, { passive: true });
+    }
 
     const _headerEl = findHeaderEl();
     if (_headerEl && window.ResizeObserver) {

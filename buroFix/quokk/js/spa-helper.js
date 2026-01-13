@@ -21,8 +21,13 @@
     );
   }
 
+  const getViewportHeight = () => {
+    const vv = window.visualViewport;
+    return Math.round((vv && vv.height) || window.innerHeight || document.documentElement.clientHeight);
+  };
+
   let lastViewportW = window.innerWidth;
-  let stableViewportH = window.innerHeight;
+  let lastViewportH = getViewportHeight();
 
   function setHeaderH() {
     const headerEl = findHeaderEl();
@@ -43,16 +48,11 @@
 
   function setVh() {
     const currentW = window.innerWidth;
-    const currentH = window.innerHeight;
-    if (currentW !== lastViewportW) {
-      stableViewportH = currentH;
-    } else if (!stableViewportH) {
-      stableViewportH = currentH;
-    } else {
-      stableViewportH = Math.min(stableViewportH, currentH);
-    }
+    const currentH = getViewportHeight();
+    if (currentW === lastViewportW && currentH === lastViewportH) return;
     lastViewportW = currentW;
-    document.documentElement.style.setProperty("--quok-vh", `${stableViewportH * 0.01}px`);
+    lastViewportH = currentH;
+    document.documentElement.style.setProperty("--quok-vh", `${currentH * 0.01}px`);
   }
 
   function run() {
@@ -62,6 +62,10 @@
 
   window.addEventListener("resize", run);
   window.addEventListener("orientationchange", run);
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", run, { passive: true });
+    window.visualViewport.addEventListener("scroll", run, { passive: true });
+  }
   document.addEventListener("DOMContentLoaded", run);
 
   // 폰트 로딩/이미지 로딩으로 헤더 높이가 변하는 케이스 보정

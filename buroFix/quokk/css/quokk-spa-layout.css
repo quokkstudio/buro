@@ -636,8 +636,6 @@ body.quok-spa-on .quok-main.is-detail-overlay .product-view{
     /* 모바일에서 전체 뷰포트 높이 고정 */
     height: calc(var(--quok-vh, 1vh) * 100);
     min-height: calc(var(--quok-vh, 1vh) * 100);
-    height: 100dvh;
-    min-height: 100dvh;
   }
 
   .quok-gnb{
