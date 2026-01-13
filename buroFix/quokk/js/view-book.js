@@ -306,6 +306,48 @@
       const values = {};
       let currentIndex = 0;
 
+      const getFieldKey = (field, idx) => {
+        const input = field?.querySelector('input');
+        return input?.dataset.fieldKey || `field${idx + 1}`;
+      };
+
+      const syncValuesFromInputs = () => {
+        fields.forEach((field, idx) => {
+          const input = field.querySelector('input');
+          const key = getFieldKey(field, idx);
+          values[key] = (input?.value || '').trim();
+        });
+      };
+
+      const applyIdentityUpdate = () => {
+        syncValuesFromInputs();
+        userContext.name = values.name || '';
+        userContext.role = values.role || '';
+        userContext.brand = values.brand || '';
+        updateUserPlaceholders();
+        setSummaryValue('lead-name', '담당자', values.name || '');
+        setSummaryValue('lead-role', '담당 역할', values.role || '');
+        setSummaryValue('lead-brand', '브랜드이름', values.brand || '');
+
+        const template = block.dataset.identityTemplate || '{name} {role} {brand}';
+        const message = template
+          .replace('{name}', values.name || '')
+          .replace('{role}', values.role || '')
+          .replace('{brand}', values.brand || '')
+          .replace(/\s+/g, ' ')
+          .trim();
+
+        if (block.dataset.completed === '1') {
+          if (message) renderEcho(block, message);
+          return null;
+        }
+
+        if (!message) return null;
+        const nextBlock = completeBlock(block, message);
+        scheduleNext(nextBlock);
+        return nextBlock;
+      };
+
       fields.forEach((field, idx) => {
         const input = field.querySelector('input');
         if (idx > 0) {
@@ -316,21 +358,45 @@
           field.classList.add('is-active');
         }
         input?.addEventListener('keydown', (evt) => {
+          const locked = field.dataset.locked === '1';
           if (evt.key === 'Enter' && !evt.shiftKey) {
+            if (locked) return;
             evt.preventDefault();
             advanceField(idx);
             return;
           }
           if (evt.key === 'Tab' && !evt.shiftKey) {
+            if (locked) return;
             evt.preventDefault();
             advanceField(idx);
           }
+        });
+
+        input?.addEventListener('focus', () => {
+          if (field.dataset.locked === '1') {
+            field.classList.remove('is-locked');
+            field.classList.add('is-active');
+            input.readOnly = false;
+          }
+        });
+
+        input?.addEventListener('blur', () => {
+          if (field.dataset.locked === '1') {
+            field.classList.remove('is-active');
+            field.classList.add('is-locked');
+            input.readOnly = true;
+          }
+          if (block.dataset.completed === '1') applyIdentityUpdate();
+        });
+
+        input?.addEventListener('change', () => {
+          if (block.dataset.completed === '1') applyIdentityUpdate();
         });
       });
 
       submit?.addEventListener('click', () => {
         if (stack.dataset.ready === 'true') {
-          finalizeIdentity();
+          applyIdentityUpdate();
         } else {
           advanceField(currentIndex);
         }
@@ -359,29 +425,8 @@
           currentIndex = idx + 1;
         } else {
           stack.dataset.ready = 'true';
-          finalizeIdentity();
+          applyIdentityUpdate();
         }
-      }
-
-      function finalizeIdentity() {
-        if (block.dataset.completed === '1') return;
-        const template = block.dataset.identityTemplate || '{name} {role} {brand}';
-        const message = template
-          .replace('{name}', values.name || '')
-          .replace('{role}', values.role || '')
-          .replace('{brand}', values.brand || '')
-          .replace(/\s+/g, ' ')
-          .trim();
-        if (!message) return;
-        userContext.name = values.name || '';
-        userContext.role = values.role || '';
-        userContext.brand = values.brand || '';
-        updateUserPlaceholders();
-        setSummaryValue('lead-name', '담당자', values.name || '');
-        setSummaryValue('lead-role', '담당 역할', values.role || '');
-        setSummaryValue('lead-brand', '브랜드이름', values.brand || '');
-        const nextBlock = completeBlock(block, message);
-        scheduleNext(nextBlock);
       }
     }
 
