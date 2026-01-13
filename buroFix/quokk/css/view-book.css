@@ -409,9 +409,6 @@
 
 .chat-message--client .chat-card {
   margin-left: auto;
-  min-width: 0;
-  width: fit-content;
-  max-width: min(520px, 100%);
 }
 
 .chat-message--client .chat-user-label {
