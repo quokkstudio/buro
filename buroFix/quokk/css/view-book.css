@@ -313,10 +313,9 @@
 }
 
 .chat-option span {
-  display: grid;
-  grid-template-columns: 1fr auto;
+  display: inline-flex;
   align-items: center;
-  column-gap: 28px;
+  gap: 8px;
   width: 100%;
   line-height: 1.4;
   font-size: 14px;
@@ -324,12 +323,12 @@
 
 .chat-option span::after {
   content: "";
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-left: 0;
+  margin-left: auto;
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
@@ -405,14 +404,14 @@
 
 .chat-message--scenario .chat-card {
   margin-left: 0;
-  max-width: min(640px, 92%);
+  max-width: 75%;
 }
 
 .chat-message--client .chat-card {
   margin-left: auto;
-  min-width: min(360px, 40%);
+  min-width: 0;
   width: fit-content;
-  max-width: min(640px, 92%);
+  max-width: min(520px, 100%);
 }
 
 .chat-message--client .chat-user-label {
