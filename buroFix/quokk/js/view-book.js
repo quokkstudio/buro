@@ -319,6 +319,11 @@
           if (evt.key === 'Enter' && !evt.shiftKey) {
             evt.preventDefault();
             advanceField(idx);
+            return;
+          }
+          if (evt.key === 'Tab' && !evt.shiftKey) {
+            evt.preventDefault();
+            advanceField(idx);
           }
         });
       });
