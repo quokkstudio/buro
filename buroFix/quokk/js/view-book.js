@@ -406,6 +406,7 @@
             field.classList.add('is-active');
             input.readOnly = false;
           }
+          scrollToLatest(field);
         });
 
         input?.addEventListener('blur', () => {
@@ -449,6 +450,7 @@
             nextField.classList.add('is-active');
             const nextInput = nextField.querySelector('input');
             nextInput?.focus({ preventScroll: true });
+            scrollToLatest(nextField);
           });
           currentIndex = idx + 1;
         } else {
@@ -496,7 +498,14 @@
       fields.forEach((field) => {
         const input = field.querySelector('input[type="date"]');
         if (!input) return;
-        const openPicker = () => {
+        if (!input.value) {
+          const today = new Date();
+          const yyyy = String(today.getFullYear());
+          const mm = String(today.getMonth() + 1).padStart(2, '0');
+          const dd = String(today.getDate()).padStart(2, '0');
+          input.value = `${yyyy}-${mm}-${dd}`;
+        }
+        const openPicker = (source = 'field') => {
           input.focus({ preventScroll: true });
           if (typeof input.showPicker === 'function') {
             try {
@@ -504,19 +513,22 @@
               return;
             } catch (err) {}
           }
-          input.click();
+          if (source !== 'input') {
+            input.click();
+          }
         };
         field.addEventListener('click', (evt) => {
           if (evt.target === input) return;
           evt.preventDefault();
-          openPicker();
+          openPicker('field');
         });
         ['mousedown', 'touchstart'].forEach((evtName) => {
           input.addEventListener(evtName, (evt) => {
             evt.preventDefault();
-            openPicker();
+            openPicker('input');
           });
         });
+        input.addEventListener('focus', () => openPicker('input'));
       });
     }
 

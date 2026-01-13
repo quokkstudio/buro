@@ -263,6 +263,10 @@
   background: #fff;
 }
 
+.chat-card__field input[type="date"] {
+  text-align: center;
+}
+
 .chat-card__field textarea {
   resize: vertical;
 }
