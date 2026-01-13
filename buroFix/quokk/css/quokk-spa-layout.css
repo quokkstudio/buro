@@ -633,6 +633,11 @@ body.quok-spa-on .quok-main.is-detail-overlay .product-view{
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
     padding-bottom: calc(var(--gnb-h) + env(safe-area-inset-bottom, 0px));
+    /* 모바일에서 전체 뷰포트 높이 고정 */
+    height: calc(var(--quok-vh, 1vh) * 100);
+    min-height: calc(var(--quok-vh, 1vh) * 100);
+    height: 100dvh;
+    min-height: 100dvh;
   }
 
   .quok-gnb{
