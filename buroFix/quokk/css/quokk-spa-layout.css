@@ -1,0 +1,796 @@
+/* /quokk/css/quokk-spa-layout.css */
+/* 1층(GNB) + 2층(리스트/뷰) 카드 레이어 + 높이 고정(홈/프로젝트 동일) + 넘침 방지 */
+/* ✅ 모션 통일(통통 + 부드럽게) + 프로젝트 리스트 열림/닫힘 애니메이션 포함 */
+
+:root{
+  font-size: 14px; /* make 1rem = 10px for SPA layout area */
+  --gnb-w: 85px;
+  --gnb-h: 72px;
+  --quok-gnb-stack: calc(var(--gnb-h, 70px) + 10px + env(safe-area-inset-bottom, 0px));
+
+  /* 1층(바닥) 색 */
+  --floor-bg: #f5f5f5;
+
+  /* 2층(카드) 스타일 */
+  --card-bg: #fff;
+  --card-radius: 15px;
+
+  /* 2층 카드들 사이/바깥 여백 */
+  --floor-gap: 12px 0px;
+  --card-inset: 12px;
+
+  /* ✅ JS가 자동 세팅 (fallback 값은 유효한 px로) */
+  --quok-header-h: 34px;
+
+  /* 오른쪽 뷰 패딩 */
+  --quok-view-pad-x: 32px;
+  --quok-view-pad-y: 24px;
+
+  /* ✅ Motion Tokens (통일) */
+  --quok-dur-fast: 220ms;
+  --quok-dur: 520ms;
+  --quok-dur-slow: 760ms;
+  --quok-dur-overlay: 1100ms;
+
+  /* 부드러운 기본 */
+  --quok-ease: cubic-bezier(.22, 1, .36, 1);
+  /* 살짝 통통(오버슈트) */
+  --quok-ease-pop: cubic-bezier(.16, 1.18, .24, 1);
+  /* ✅ 시트 전용: 부드럽게 스르륵 */
+  --quok-ease-sheet: cubic-bezier(.2, .8, .2, 1);
+  --gap: 8px;
+}
+
+.topText{
+  height:28px;
+  font-size:12px;
+  line-height:30px;
+  background:#8A8A8A;
+  color:white;
+  overflow:hidden;
+  position:relative;
+  white-space:nowrap;
+}
+.topText__track{
+  display:inline-flex;
+  align-items:center;
+  gap:40px;
+  animation:topTextMarquee 18s linear infinite;
+}
+.topText__track span{
+  flex-shrink:0;
+}
+@keyframes topTextMarquee{
+  0%{ transform:translateX(0); }
+  100%{ transform:translateX(var(--topText-shift, -50%)); }
+}
+
+@keyframes quokDetailZoomIn{
+  0%{
+    transform: translateZ(0) scale(0.985);
+  }
+  100%{
+    transform: translateZ(0) scale(1);
+  }
+}
+
+@keyframes quokDetailDimIn{
+  0%{
+    filter: brightness(0.55);
+  }
+  100%{
+    filter: brightness(1);
+  }
+}
+
+
+/* ✅ 이 페이지에서만 바깥(body) 스크롤을 막고, 내부만 스크롤 */
+body.quok-spa-on{
+  overflow: hidden !important;
+}
+
+/* ✅ 전체 래퍼: 헤더 제외한 높이를 “고정” */
+.quok-spa-wrap{
+  display:grid;
+  grid-template-columns: var(--gnb-w) minmax(0, 1fr);
+  width:100%;
+
+  /* ✅ 100vh 대신 100dvh + 헤더 제외 */
+  height: calc(var(--quok-vh, 1vh) * 100 - var(--quok-header-h));
+  min-height: calc(var(--quok-vh, 1vh) * 100 - var(--quok-header-h));
+
+  margin:0 auto;
+  color:#111;
+  background: var(--floor-bg);
+
+  /* ✅ 혹시 모를 가로 넘침 차단 */
+  overflow: hidden;
+}
+
+/* 1층: GNB */
+.quok-gnb{
+  position: sticky;
+  top: var(--quok-header-h);
+
+  /* ✅ 래퍼 높이에 맞춤 */
+  height: calc(var(--quok-vh, 1vh) * 100 - var(--quok-header-h));
+  z-index: 1;
+  background: var(--floor-bg);
+  backdrop-filter: none;
+}
+
+.gnb-inner{
+  width:85px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:24px;
+  text-align:center;
+}
+.gnb-inner a{
+position:absolute; 
+margin-top:12px;
+}
+.gnb-logo__mark{
+  display:inline-flex;
+  width:28px;
+  height:28px;
+  border-radius:999px;
+  border:1px solid #111;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+}
+
+.gnb-main ul{
+    flex-direction: column;
+    display: flex;
+    gap: 25px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items:center;
+}
+
+.gnb-main__link{
+  display:block;
+  width:100%;
+  text-align:center;
+  border:0;
+  background:transparent;
+  text-orientation: mixed;
+  cursor:pointer;
+  font-size:11px;
+  letter-spacing:0.1px;
+  color:#888;
+
+  /* ✅ 모션 톤 통일 (미세) */
+  transition: color var(--quok-dur-fast) var(--quok-ease);
+}
+
+.gnb-main__link.is-active{ color:#111; }
+
+.gnb-main__icon{
+  display:block;
+  margin:0 0 10px;
+}
+
+.gnb-main__icon img{
+  width:18px;
+  height:18px;
+  display:block;
+  margin:0 auto;
+}
+
+/* ✅ 2층 래퍼: 항상 같은 높이(헤더 제외한 래퍼 안에서 꽉) */
+.quok-main{
+  padding: var(--floor-gap);
+  position: relative;
+  z-index: 2;
+
+  display:grid;
+  grid-template-columns: 0 minmax(0, 1fr);
+  gap: 0;
+  min-height: 0;
+
+  /* ✅ 열림/닫힘 모션 통일 */
+  transition:
+    grid-template-columns var(--quok-dur) var(--quok-ease),
+    gap var(--quok-dur) var(--quok-ease);
+}
+
+.quok-main.mode-project{
+  display: grid;
+  grid-template-columns: clamp(180px, calc(23vw + 10px), 400px) minmax(0, 1fr);
+  gap: var(--gap);
+}
+
+.quok-main{
+  background-color: var(--floor-bg);
+}
+
+body[data-quok-main="home"] .quok-main{
+  padding: 0;
+}
+
+.quok-main.mode-project > *{ min-width: 0; }
+
+/* ✅ 상세(프로덕트)일 때 메인 배경을 카드색으로 맞춰 톤 차이 제거 */
+body.is-pd .quok-spa-wrap{
+  background: var(--floor-bg);
+}
+
+body.is-pd .quok-main{
+  background: var(--floor-bg);
+}
+
+body.is-pd .quok-gnb{
+  backdrop-filter: none;
+}
+
+/* ✅ 프로젝트 모드에서만: 리스트 접기/펼치기 (애니메이션 가능하게 2컬럼 유지) */
+.quok-main.mode-project.is-list-closed{
+  grid-template-columns: 0% minmax(0, 1fr);
+  gap: 0;
+}
+
+/* 2층 카드 공통 */
+.panel-list{
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  min-height: 0;
+  min-width: 0; /* ✅ 그리드 안에서 수축 가능 */
+}
+
+.quok-view{
+  background: transparent; /* 배경만 제거 */
+  border-radius: var(--card-radius);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  min-height: 0;
+  min-width: 0; /* ✅ 그리드 안에서 수축 가능 */
+}
+
+/* 모든 페이지에서 배경만 투명 (강제) */
+#quok-view{
+  background: transparent !important;
+}
+
+@media (min-width: 1025px){
+  .panel-list,
+  .quok-view{
+    border-radius: var(--card-radius) !important;
+  }
+}
+
+.panel-list__head{
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 12px 4px;
+}
+
+.panel-list__close{
+  display:none;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,.08);
+  background: rgba(255,255,255,.7);
+  padding: 0;
+  align-items:center;
+  justify-content:center;
+}
+
+.panel-list__chevron{
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #111;
+  border-bottom: 2px solid #111;
+  transform: rotate(45deg);
+}
+
+/* 홈 뷰가 남아있을 때(프로젝트 열림/닫힘)도 카드 배경 제거 */
+body.is-home-view .quok-view{
+  background: transparent;
+}
+
+/* 다른 페이지 → 프로젝트 진입 후 리스트 닫힘 시 레이아웃 복원 */
+body[data-quok-project-entry="1"] .quok-view:nth-child(2){
+  margin-right: 0;
+}
+body[data-quok-project-entry="1"] .quok-main.mode-project.is-list-closed .quok-view{
+  transform: none;
+}
+
+.quok-view:nth-child(2){
+margin-right:11px;
+}
+
+/* 프로젝트 외 페이지에서 리스트 닫을 때 미세 오버플로 방지 */
+body:not([data-quok-main="project"]) .quok-view:nth-child(2){
+  margin-right:0;
+}
+.panel-list .listT{
+  text-align:center;
+  font-size:14px;
+  color:black;
+  padding:10px 0 0;
+  font-weight:400;
+}
+
+/* 리스트 패널 */
+/* 왼쪽 리스트 패널(부모)에 컨테이너 선언 */
+.panel-list{
+  container-type: inline-size;
+}
+
+/* 패널 폭에 비례해서 패딩이 줄어듦 */
+.panel-list__inner{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.panel-tabs{
+  margin: 12px; /* fallback for browsers without cqi */
+  margin: clamp(10px, 6cqi, 20px);
+  margin-bottom:15px;
+  margin-top:8px;
+  border-radius:8px;
+  padding:2px;
+  background:#C1C1C1;
+  display:flex;
+}
+
+.panel-tab{
+  border:none;
+  background:none;
+  flex:1;
+  height:24px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:12px;
+  color:white;
+
+  /* ✅ 탭 전환 모션 톤 통일 */
+  transition:
+    background var(--quok-dur-fast) var(--quok-ease),
+    color var(--quok-dur-fast) var(--quok-ease),
+    box-shadow var(--quok-dur) var(--quok-ease),
+    transform var(--quok-dur-fast) var(--quok-ease-pop);
+}
+
+.panel-tab.is-active{
+  box-shadow: 0px 4px 4px 0px #00000040;
+  background:white;
+  color:black;
+}
+
+/* ✅ 리스트는 body만 스크롤 */
+.panel-list__body{
+  flex:1;
+  min-height:0;
+  overflow:auto;
+}
+
+.panel-placeholder{
+  font-size:12px;
+  color:#999;
+}
+
+/* ✅ 뷰는 “패딩 가진 카드” + 내부 root만 스크롤 */
+.quok-view{
+  overflow: hidden;
+
+  /* ✅ 내부 레이아웃 안정화 */
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+
+  /* ✅ 리스트 접힘/펼침과 톤 통일 */
+  will-change: transform;
+  transition: transform var(--quok-dur) var(--quok-ease-pop);
+}
+
+/* 상세 뷰에서는 fixed 요소 기준이 흔들리지 않게 */
+.quok-main:not(.is-detail-overlay) .quok-view.is-pd{
+  transform: none !important;
+}
+
+#view-root{
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ✅ 리스트 패널 접힘/펼침 애니메이션 (display:none 금지) */
+.quok-main.mode-project .panel-list{
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  transform-origin: left center;
+  will-change: transform, opacity;
+  transition:
+    opacity var(--quok-dur) var(--quok-ease),
+    transform var(--quok-dur) var(--quok-ease-pop);
+}
+
+/* 닫힘 상태: 보이기만 숨기고(부드럽게), 폭은 grid가 0으로 애니메이션 */
+.quok-main.mode-project.is-list-closed .panel-list{
+  opacity: 0;
+  transform: translateX(-10px) scale(.985);
+  pointer-events: none;
+}
+
+/* 뷰도 살짝 반응해서 통일감 */
+.quok-main.mode-project.is-list-closed .quok-view{
+  transform: translateX(-6px);
+}
+
+body:not([data-quok-main="project"]) .quok-main.mode-project.is-list-closed .quok-view{
+  transform: none;
+}
+
+/* ✅ 프로젝트 → 다른 메뉴 이동 시 리스트 열림/닫힘 깜빡임 방지 */
+
+/* ✅ 프로젝트 리스트 열림 시 배경 유지 (리스트만 흰 배경) */
+body.is-contact-view.quok-list-open .quok-spa-wrap,
+body.is-contact-view.quok-list-open .quok-gnb,
+body.is-contact-view.quok-list-open .quok-main,
+body.is-contact-view.quok-list-open .quok-view,
+body.is-contact-view.quok-list-open #quok-view,
+body.is-contact-view.quok-list-open #view-root{
+  background: transparent !important;
+}
+
+/* ✅ Contact에서 리스트만 열릴 때도 위/아래 여백 유지 */
+@media (min-width: 1025px){
+  body.is-contact-view .panel-list{
+    margin: 12px 0;
+    height: calc(100% - 24px);
+    align-self: center;
+  }
+}
+.quok-main.is-main-switch{
+  transition: none !important;
+}
+
+.quok-main.is-main-switch .panel-list,
+.quok-main.is-main-switch .quok-view{
+  transition: none !important;
+}
+
+.quok-main.is-main-switch .panel-list{
+  opacity: 0;
+  transform: translateX(-10px) scale(.985);
+  pointer-events: none;
+}
+
+/* ✅ 상세 화면: “새 화면”처럼 좌 → 우 슬라이드 (PC 전용) */
+@media (min-width: 1025px){
+  .quok-main.is-detail-overlay{
+    overflow: hidden;
+  }
+
+  .quok-main.is-detail-overlay .panel-list{
+    opacity: 0;
+    transform: translateX(-12px) scale(.985);
+    pointer-events: none;
+  }
+
+  .quok-main.is-detail-overlay .quok-view{
+    position: absolute;
+    top: var(--card-inset);
+    right: 0;
+    bottom: var(--card-inset);
+    left: 0;
+    z-index: 5;
+    margin-right: 0;
+    transform: none !important;
+    opacity: 1;
+    overflow: hidden;
+    border-radius: var(--card-radius) !important;
+    transition: none;
+    will-change: auto;
+  }
+
+  .quok-main.is-detail-overlay.is-detail-enter .quok-view{
+    animation: none;
+  }
+
+  .quok-main.is-detail-overlay.is-detail-enter .quok-view .pd2-content{
+    animation: quokDetailZoomIn var(--quok-dur-overlay) var(--quok-ease) 120ms both;
+    transform-origin: left center;
+    will-change: transform;
+  }
+
+  .quok-main.is-detail-overlay.is-detail-enter .quok-view.is-pd{
+    animation: quokDetailDimIn var(--quok-dur-overlay) var(--quok-ease) 120ms both;
+    will-change: filter;
+  }
+
+  .quok-main.is-detail-inline-enter .quok-view .pd2-content{
+    animation: quokDetailZoomIn var(--quok-dur-overlay) var(--quok-ease) 120ms both;
+    transform-origin: left center;
+    will-change: transform;
+  }
+
+  .quok-main.is-detail-inline-enter .quok-view.is-pd{
+    animation: quokDetailDimIn var(--quok-dur-overlay) var(--quok-ease) 120ms both;
+    will-change: filter;
+  }
+}
+
+/* ✅ JS 반영 전에도 동작하도록: 리스트 닫힘 + 상세일 때 슬라이드 */
+@media (min-width: 1025px){
+  .quok-main.mode-project.is-list-closed:not(.is-detail-overlay){
+    overflow: hidden;
+  }
+
+  .quok-main.mode-project.is-list-closed:not(.is-detail-overlay) .panel-list{
+    opacity: 0;
+    transform: translateX(-12px) scale(.985);
+    pointer-events: none;
+  }
+
+}
+
+/* Home 뷰 */
+.home-title{
+  font-size:32px;
+  margin:0 0 8px;
+}
+
+.home-desc{
+  font-size:14px;
+  color:#555;
+}
+
+/* ✅ 페이드 인 모션 통일(통통 + 부드럽게) */
+body.quok-spa-on .product-view,
+body.quok-spa-on .home-view{
+  opacity:0;
+  transform: translateY(12px) scale(.992);
+  will-change: transform, opacity;
+  transition:
+    opacity var(--quok-dur-fast) var(--quok-ease),
+    transform var(--quok-dur) var(--quok-ease-pop);
+}
+
+body.quok-spa-on .product-view.is-enter,
+body.quok-spa-on .home-view.is-enter{
+  opacity:1;
+  transform: translateY(0) scale(1);
+}
+
+/* ✅ 상세 오버레이에서는 기존 페이드/이동 제거 (좌→우 열림만 사용) */
+body.quok-spa-on .quok-main.is-detail-overlay .product-view{
+  opacity: 1 !important;
+  transform: scale(1);
+  transition: none !important;
+}
+
+/* 상품 리스트 썸네일 아래 공백 제거 */
+#panel-list-body .prdImg a{
+  display:block;
+  line-height:0;
+  font-size:0;
+}
+#panel-list-body .prdImg img{
+  display:block;
+  vertical-align:top;
+}
+/* ✅ 빨간영역(.gnb-main) 수직 가운데 정렬 */
+.gnb-inner{ height:100%; }                 /* 핵심: 부모 높이 채우기 */
+.gnb-main{ margin-top:auto; margin-bottom:auto; }  /* 메뉴 블록만 가운데로 */
+.quok-gnb{ display:flex; }  /* (옵션) sticky 안쪽 높이 전달 안정화 */
+/* ✅ 모션 최소화 옵션 */
+@media (prefers-reduced-motion: reduce){
+  .quok-main,
+  .panel-list,
+  .quok-view,
+  .product-view,
+  .home-view,
+  .panel-tab,
+  .gnb-main__link,
+  .topText__track{
+    transition: none !important;
+    transform: none !important;
+    filter: none !important;
+    animation: none !important;
+  }
+}
+
+/* 반응형 */
+@media (max-width: 960px){
+  :root{
+    --gnb-w: 64px;
+    --floor-gap: 14px;
+    --quok-view-pad-x: 20px;
+    --quok-view-pad-y: 18px;
+  }
+
+  .quok-main.mode-project{
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 1024px){
+  :root{
+    --floor-gap: 10px;
+    --quok-view-pad-x: 16px;
+    --quok-view-pad-y: 14px;
+    --gnb-h: 70px;
+  }
+
+  .quok-spa-wrap{
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    padding-bottom: calc(var(--gnb-h) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .quok-gnb{
+    position: fixed !important;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    top: auto;
+    height: auto;
+    width: auto;
+    padding: 6px 10px 6px 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.59);
+    backdrop-filter: blur(12px);
+    z-index: 50;
+  }
+
+  .gnb-inner{
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .gnb-logo{ display: none; }
+
+  .gnb-main{
+    margin: 0;
+    width: 100%;
+  }
+
+  .gnb-main ul{
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0;
+    width: 100%;
+  }
+
+  .gnb-main__link{
+    font-size: 10px;
+    line-height: 1.1;
+    color: #666;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 6px;
+    min-width: 48px;
+  }
+
+  .gnb-main__link.is-active{ color:#111; }
+
+  .gnb-main__icon img{
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
+
+  .quok-main{
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 0;
+  }
+
+  .quok-main.mode-project{
+    grid-template-columns: 1fr;
+  }
+
+  .quok-view{
+    min-height: 0;
+    border-radius: 0;
+  }
+
+  .quok-view:nth-child(2){
+    margin-right: 0;
+  }
+
+  .panel-list{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: var(--quok-header-h);
+    bottom: 0;
+    max-height: none;
+    margin: 0;
+    border-radius: 0;
+    border: 0;
+    z-index: 40;
+    transform: translateY(100%);
+    opacity: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    pointer-events: none;
+    transition:
+      transform var(--quok-dur-slow) var(--quok-ease-sheet),
+      opacity var(--quok-dur) var(--quok-ease);
+  }
+
+  body.quok-sheet-open .panel-list{
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .quok-main.mode-project.is-list-closed .panel-list{
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .quok-main.mode-project.is-list-closed .quok-view{
+    transform: none;
+  }
+
+  .panel-tabs{
+    margin: 8px 12px 12px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+
+  .panel-list__head{
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    padding: 10px 12px 6px;
+  }
+
+  .panel-list__close{
+    display:inline-flex;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    width: 24px;
+    height: 24px;
+    justify-self: start;
+  }
+
+  .panel-list__chevron{
+    width: 8px;
+    height: 8px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+  }
+
+  .panel-list__head .listT{
+    grid-column: 2;
+    justify-self: center;
+  }
+
+
+  .panel-list__body{
+    padding-bottom: 6px;
+  }
+
+  /* 홈/컨택트: 하단 GNB와 겹치지 않도록 여유 공간 */
+  body[data-quok-main="home"] #view-root,
+  body.is-contact-view #view-root,
+  body[data-quok-main="contact"] #view-root{
+    padding-bottom: calc(var(--quok-gnb-stack, 0px) + 16px);
+  }
+}

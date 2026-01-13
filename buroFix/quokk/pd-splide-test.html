@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/quokk/css/product-detail.css" />
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; }
+    body { background: #111; }
+    #view-root { height: 100vh; }
+  </style>
+</head>
+<body>
+  <div id="view-root" class="is-pd">
+    <div class="quok-view is-pd">
+      <div data-spa-fragment="view" class="product-view quok-pd2">
+        <section class="pd2-gallery splide" data-pd-gallery data-carousel>
+          <div class="pd2-viewport">
+            <ul class="pd2-track" data-pd-track>
+              <li class="pd2-slide pd2-slide--main">
+                <img alt="img1" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='700' height='1200'><rect width='100%25' height='100%25' fill='%23333'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23fff' font-size='80'>1</text></svg>" />
+              </li>
+              <li class="pd2-slide">
+                <img alt="img2" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1000' height='1200'><rect width='100%25' height='100%25' fill='%23555'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23fff' font-size='80'>2</text></svg>" />
+              </li>
+              <li class="pd2-slide">
+                <img alt="img3" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='500' height='1200'><rect width='100%25' height='100%25' fill='%23777'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23fff' font-size='80'>3</text></svg>" />
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <script src="/quokk/js/vendor/splide.min.js"></script>
+  <script src="/quokk/js/vendor/splide-auto-scroll.min.js"></script>
+  <script src="/quokk/js/pd-gallery.js"></script>
+</body>
+</html>

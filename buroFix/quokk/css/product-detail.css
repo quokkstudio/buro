@@ -1,0 +1,371 @@
+/* /quokk/css/product-detail.css */
+@import url("/quokk/css/vendor/splide.min.css");
+/* ✅ 카드(#view-root) 안에서 100%로만 동작하도록 설계 (vh 사용 X) */
+
+.product-view.quok-pd2,
+.product-view.quok-pd2 *{
+  box-sizing: border-box;
+}
+
+.product-view.quok-pd2 img{
+  display:block;
+  vertical-align:top;
+  -webkit-user-drag:none;
+  user-drag:none;
+  user-select:none;
+  -webkit-user-select:none;
+}
+
+/* ✅ 중요: 풀블리드(음수 margin) 삭제. 카드 내부 100%로만 */
+.product-view.quok-pd2{
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  background: transparent;
+  border-radius: 0;
+  transform: none !important;
+
+  --pd2-perview: 1.8;  /* PC: 1 + 0.8 */
+  --pd2-gap: 18px;
+  --pd2-edge: 24px;
+}
+
+.pd2-content{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  transform-origin: center;
+}
+
+/* 상세일 때 오른쪽 카드 padding을 0으로 만들기 위한 훅 */
+.quok-view.is-pd{
+  padding: 0 !important;
+}
+
+/* ✅ 뷰 루트도 스크롤/오버플로를 상세가 제어 */
+#view-root.is-pd{
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+/* ✅ PC에서 상세 카드도 다른 카드와 동일한 라운드 유지 */
+@media (min-width: 1025px){
+  .quok-view.is-pd{
+    border-radius: var(--card-radius) !important;
+  }
+
+  #view-root.is-pd{
+    border-radius: inherit !important;
+  }
+}
+
+/* 갤러리(위) + 바텀(아래) */
+.pd2-gallery{
+  flex: 1 1 auto;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0;
+  height: var(--pd2-hero-h);
+  visibility: visible;
+}
+
+/* 초기 정렬 중 깜빡/밀림 숨김 */
+.pd2-gallery.pd2-is-staging{
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 홀드 동안 시작 위치 고정 */
+.pd2-gallery.pd2-is-pinned .splide__list{
+  transform: translate3d(0, 0, 0) !important;
+  transition: none !important;
+}
+
+/* 도트 숨김 */
+.pd2-dots{ display:none !important; }
+
+/* 트랙 */
+.pd2-track{
+  height: 100%;
+  display: flex;
+  overflow: visible;
+
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+  gap: 0;                          /* ✅ 이미지 사이 간격 0 */
+  will-change: transform;
+  touch-action: pan-y;
+  cursor: grab;
+
+  scrollbar-width: none;
+  border-radius: 0;
+}
+.pd2-track::-webkit-scrollbar{ display:none; }
+.pd2-track.is-dragging{ cursor: grabbing; }
+
+/* Splide structural sizing */
+.pd2-viewport,
+.splide__track,
+.splide__list{
+  height: 100%;
+}
+
+@media (min-width: 1024px){
+  .pd2-gallery.splide .splide__list{
+    display: inline-flex;
+    width: max-content;
+  }
+
+  .pd2-gallery.splide .splide__arrows{
+    display: none;
+  }
+}
+
+.pd2-slide{
+  flex: 0 0 auto;
+  height: var(--pd2-hero-h);
+  width: calc(var(--pd2-hero-h) * 2 / 3);
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  overflow: hidden;
+
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* ✅ vh 대신 “갤러리 높이(=100%)” 기준 */
+.pd2-slide img{
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+  flex: 0 0 auto;                 /* ✅ flex에서 줄어들지 않게 */
+  transform: translateZ(0) scale(1);
+  border-radius: 0;
+}
+
+/* 하단 고정 영역 */
+.pd2-bottom{
+  min-width:500px;
+  min-height:116px;
+  flex: 0 0 auto;
+  position: absolute;
+  bottom: 5%;
+  right:1%;
+  border-radius: 12px;
+  background: hsla(0, 0%, 89%, 0.52);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 1.5rem;
+  display:inline-block;
+  z-index: 3;
+}
+
+.product-view.quok-pd2.is-enter{
+  transform: none !important;
+}
+
+.pd2-title{
+    margin:0 0 16px 0;
+	color:black;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: -4%;
+}
+
+.pd2-desc{
+  margin:8px 0 0;
+  font-size:14px;
+  line-height:1.5;
+  color:black;
+  max-width: 560px;
+}
+
+.pd2-desc:empty{
+  display: none;
+}
+
+.pd2-desc:not(:empty) ~ .pd2-desc{
+  display: none;
+}
+/* img 뒤 &nbsp;로 생기는 여백 제거 */
+.product-view.quok-pd2 .pd2-slide{
+  font-size: 0;     /* &nbsp; 폭 0 */
+  line-height: 0;   /* &nbsp; 줄높이 0 (아래 여백도 같이 제거) */
+}
+
+/* 혹시 다른 텍스트/요소 넣을 계획이면, 필요 시 개별 요소에 폰트 복구 */
+.product-view.quok-pd2 .pd2-slide img{
+  font-size: initial;
+  line-height: normal;
+}
+.pd2-track{ scroll-snap-type: none; }
+
+/* Splide structural sizing */
+.pd2-viewport,
+.splide__track,
+.splide__list{
+  height: 100%;
+}
+
+:root{
+  --pd2-hero-h: calc(var(--quok-vh, 1vh) * 100 - var(--quok-header-h, 0px));
+}
+/* 태블릿/모바일: 1장씩 보이기 + 화면 높이 */
+@media (max-width: 1023px){
+  .pd2-gallery{
+    height: var(--pd2-hero-h);
+  }
+
+  .pd2-slide{
+    width: var(--pd2-slide-w, 100%);
+    height: var(--pd2-hero-h);
+  }
+
+  .pd2-slide img{
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+/* Splide arrows: center left/right, text only */
+.pd2-gallery.splide .splide__arrows{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.pd2-gallery.splide .splide__arrow{
+  pointer-events: auto;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: 0;
+  box-shadow: none;
+  width: auto;
+  height: auto;
+  padding: 0;
+  opacity: 1;
+  color: #111;
+  line-height: 1;
+  text-shadow: 0 1px 3px rgba(0,0,0,.35);
+}
+
+.pd2-gallery.splide .splide__arrow svg{
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.pd2-gallery.splide .splide__arrow--prev{
+  left: 16px;
+}
+
+.pd2-gallery.splide .splide__arrow--next{
+  right: 16px;
+}
+
+.pd2-gallery.splide .splide__arrow--prev svg{
+  transform: rotate(180deg);
+}
+.is-pd{position:relative;}
+.pdTitle{width:95%; height:50px; border-bottom:1px solid rgba(193, 193, 193, 1); top:10px; left:50%; right:50%; transform: translateX(-50%); position:absolute; justify-content: space-between; display: flex; z-index: 99;}
+.pdTitle p{
+gap:5px;
+align-items: center;
+font-weight: 400;
+font-style: Regular;
+font-size: 14px;
+line-height: 50px;
+letter-spacing: 0%;
+color:black;
+margin:0;
+flex-direction: row;
+}
+.pdTitle img{height:20px;}
+
+.pdTitle.quok-head{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  transform: none;
+  width: 100%;
+  height: auto;
+  align-items:flex-start;
+  padding: var(--quok-head-pad-top) clamp(18px, 4vw, 36px) var(--quok-head-pad-bottom);
+  box-sizing: border-box;
+  border-bottom: 0;
+  --quok-head-line-inset: clamp(18px, 4vw, 36px);
+  --quok-head-min-h: 35px;
+  z-index: 3;
+}
+
+.pdTitle.quok-head .quok-head__title,
+.pdTitle.quok-head .quok-head__cta{
+  font-size: var(--quok-head-title-size);
+  line-height: normal;
+  padding-top: var(--quok-head-title-pad-top);
+  color: #111;
+}
+/* 태블릿/모바일 */
+@media (max-width: 1024px){
+  .pdTitle.quok-head{
+    width: 100%;
+    left: 0;
+    right: 0;
+    transform: none;
+    padding: var(--quok-head-pad-top) clamp(18px, 4vw, 36px) var(--quok-head-pad-bottom);
+  }
+
+  .pdTitle.quok-head .quok-head__cta{
+    padding-right: 0;
+  }
+
+  .product-view.quok-pd2{
+    --pd2-perview: 1.15;
+    --pd2-gap: 12px;
+    --pd2-edge: 16px;
+    height: var(--pd2-hero-h);
+    min-height: var(--pd2-hero-h);
+  }
+
+  #view-root.is-pd{
+    height: var(--pd2-hero-h);
+  }
+
+  .pd2-track{
+    scroll-snap-type: none;
+  }
+  .pd2-slide{ padding:0; }
+
+  .pd2-bottom{
+    min-width: 0;
+    width: auto;
+    left: 12px;
+    right: 12px;
+    position: fixed;
+    bottom: calc(max(var(--quok-gnb-stack, 0px), calc(var(--gnb-h, 70px) + env(safe-area-inset-bottom, 0px))) + 10px);
+    padding: 16px 18px;
+  }
+
+}

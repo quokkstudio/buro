@@ -1,0 +1,102 @@
+/* /quokk/css/module.css */
+:root{
+  --quok-head-pad-top: 8px;
+  --quok-head-pad-bottom: 8px;
+  --quok-head-title-pad-top: 10px;
+  --quok-head-title-size: 14px;
+  --quok-head-cta-pad-top: 10px;
+  --quok-head-cta-icon-shift: 0px;
+  --quok-head-line: transparent;
+  --quok-head-min-h: auto;
+  --quok-head-color: inherit;
+  --quok-head-line-inset: 0px;
+  --quok-head-line-offset: 2px;
+}
+
+.quok-head,
+.quok-module-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  padding: var(--quok-head-pad-top) 0 var(--quok-head-pad-bottom);
+  gap: 12px;
+  min-height: var(--quok-head-min-h);
+  position: relative;
+}
+
+.quok-head::after,
+.quok-module-head::after{
+  content: "";
+  position: absolute;
+  left: var(--quok-head-line-inset);
+  right: var(--quok-head-line-inset);
+  bottom: calc(0px - var(--quok-head-line-offset));
+  border-bottom: 1px solid var(--quok-head-line);
+  pointer-events: none;
+}
+
+.quok-head__title,
+.quok-module-head__title{
+  font-size: var(--quok-head-title-size);
+  line-height: normal;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  padding-top: var(--quok-head-title-pad-top);
+  color: var(--quok-head-color, inherit);
+}
+
+.quok-head__cta,
+.quok-module-head__cta{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  text-decoration: none;
+  border: 0;
+  background: transparent;
+  color: var(--quok-head-color, inherit);
+  font-size: 14px;
+  line-height: normal;
+  padding-top: var(--quok-head-cta-pad-top);
+}
+
+.quok-head__cta.gnb-main__link,
+.quok-module-head__cta.gnb-main__link{
+  display:inline-flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: auto;
+  min-width: 0;
+  text-align: right;
+  font-size: var(--quok-head-title-size);
+  line-height: normal;
+  color: inherit;
+  padding-top: var(--quok-head-cta-pad-top);
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+}
+
+.quok-head__cta-icon,
+.quok-module-head__cta-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  position: relative;
+  top: var(--quok-head-cta-icon-shift);
+}
+
+.quok-head__cta-icon img,
+.quok-module-head__cta-icon img{
+  display:block;
+}
+
+.quok-head--light{
+  --quok-head-line: rgba(193, 193, 193, 1);
+  --quok-head-color: #111;
+}
+
+.quok-head--dark{
+  --quok-head-line: var(--guide-line, rgba(255,255,255,0.12));
+  --quok-head-color: var(--guide-fg, #f2f2f2);
+}

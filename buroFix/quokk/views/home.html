@@ -1,0 +1,19 @@
+<div class="spa-view" data-spa-view="home">
+  <section class="spa-board" data-board-free>
+    <div class="spa-board__posts" data-board-posts>
+      <p class="spa-board__loading">게시글을 불러오는 중입니다…</p>
+    </div>
+
+    <div class="spa-board__source" data-board-source>
+      <ul class="spa-board__hidden-list" module="board_listpackage_5">
+        <li module="board_list_5">
+          <a href="{$link_board_detail}" class="spa-board__source-link {$block_content_class}">
+            {$subject}
+          </a>
+          <span class="spa-board__source-meta">{$writer} · {$write_date}</span>
+        </li>
+      </ul>
+      <p class="spa-board__source-empty {$empty_display|display}" module="board_empty_5">{$empty_message}</p>
+    </div>
+  </section>
+</div>

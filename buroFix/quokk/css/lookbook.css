@@ -1,0 +1,96 @@
+/* /quokk/css/lookbook.css */
+/* panel-list 안에 들어온 카페24 prdList(grid2)를 “패널 폭”에 맞게 안정화 */
+
+#panel-list-body {
+  max-width: 100%;
+  padding: 10px 20px 12px;
+  box-sizing: border-box;
+}
+
+#panel-list-body ul,
+#panel-list-body li{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#panel-list-body .prdList{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: calc(var(--gap) * 2);
+}
+
+#panel-list-body .prdList > li{
+  min-width: 0;
+}
+
+#panel-list-body .thumbnail{
+  aspect-ratio: 2 / 3;
+  border-radius: 12px;
+  filter: drop-shadow(0 4px 4px rgba(0,0,0,.25));
+  overflow: visible;
+}
+
+#panel-list-body .prdImg{
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  height: 100%;
+}
+
+#panel-list-body .prdImg a{
+  display:block;
+  width:100%;
+  height:100%;
+  line-height:0;
+}
+
+#panel-list-body .prdImg img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit: cover;        /* 박스 채우고 크롭 */
+  object-position: center;  /* 가운데 정렬 */
+}
+#panel-list-body .description{
+  padding: 11px 2px 2px;
+}
+
+#panel-list-body .description .name{
+  display: block;
+  font-size: 13px;
+  line-height: 1.35;
+  color: black;
+  font-weight:400;
+  text-align:center;
+}
+
+#panel-list-body .description .name > a > span{
+  font-size: 12px!important;
+  line-height: 1.35;
+}
+
+/* 불필요한 요소 숨김(원하면 켜도 됨) */
+#panel-list-body .icon,
+#panel-list-body .spec,
+#panel-list-body .wish,
+#panel-list-body .chk,
+#panel-list-body .button{
+  display: none !important;
+}
+
+@media (max-width: 900px){
+  #panel-list-body{
+    padding: 8px 12px 14px;
+  }
+
+  #panel-list-body .prdList{
+    gap: 12px;
+  }
+}
+
+@media (max-width: 520px){
+  #panel-list-body .prdList{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -1,0 +1,129 @@
+<!-- /index.html -->
+<!--@layout(/layout/basic/layout.html)-->
+
+<!-- quokk 전용 CSS -->
+<!--@css(/quokk/css/quokk-common.css)-->
+<!--@css(/quokk/css/quokk-spa-layout.css)-->
+<!--@css(/quokk/css/module.css)-->
+<!--@css(/quokk/css/view-home.css)-->
+<!--@css(/quokk/css/view-web.css)-->
+<!--@css(/quokk/css/view-guide.css)-->
+<!--@css(/quokk/css/view-contact.css)-->
+<!--@css(/quokk/css/view-book.css)-->
+<!--@css(/quokk/css/lookbook.css)-->
+<!--@css(/quokk/css/product-detail.css)-->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<style>
+.quok-lookbook-list {
+  padding: 0;	
+}
+</style>
+<div class="topText">Build a shot list, deliver products, and we’ll handle the rest. No need to join the shoot. Pay per image.</div>
+<div id="quok-wrap" class="quok-spa-wrap">
+
+  <!-- 1. 왼쪽 GNB -->
+  <aside class="quok-gnb">
+    <div class="gnb-inner">
+      <a href="#/home" class="gnb-logo" aria-label="Quokk Home">
+        <span class="gnb-logo__mark">Ü</span>
+      </a>
+
+      <nav class="gnb-main" aria-label="Main navigation">
+        <ul>
+          <li><button type="button" class="gnb-main__link is-active" data-main="home"><p class="gnb-main__icon"><img src="/img/icon/1.png" alt=""></p>Home</button></li>
+          <li><button type="button" class="gnb-main__link" data-main="project"><p class="gnb-main__icon"><img src="/img/icon/2.png" alt=""></p>Project</button></li>
+          <li><button type="button" class="gnb-main__link" data-main="web"><p class="gnb-main__icon"><img src="/img/icon/3.png" alt=""></p>Web</button></li>
+          <li><button type="button" class="gnb-main__link" data-main="guide"><p class="gnb-main__icon"><img src="/img/icon/4.png" alt=""></p>Guide</button></li>
+          <li><button type="button" class="gnb-main__link" data-main="contact"><p class="gnb-main__icon"><img src="/img/icon/5.png" alt=""></p>Contact</button></li>
+          <li><button type="button" class="gnb-main__link" data-main="book"><p class="gnb-main__icon"><img src="/img/icon/6.png" alt=""></p>Book</button></li>
+        </ul>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- 2+3를 감싸는 래퍼 -->
+  <div class="quok-main">
+
+    <!-- 2. 가운데 리스트 패널 -->
+    <aside class="panel-list" id="panel-list">
+      <div class="panel-list__head">
+        <button type="button" class="panel-list__close" aria-label="Close project list">
+          <span class="panel-list__chevron" aria-hidden="true"></span>
+        </button>
+        <div class="listT">PROJECTS</div>
+      </div>
+      <div class="panel-list__inner">
+
+        <!-- 탭 -->
+        <div class="panel-tabs" role="tablist" aria-label="Project Tabs">
+          <button type="button"
+                  class="panel-tab is-active"
+                  role="tab"
+                  aria-selected="true"
+                  data-tab="lookbook"
+                  data-list-url="/quokk/lists/lookbook.html?cate_no=43">
+            Lookbook
+          </button>
+
+          <button type="button"
+                  class="panel-tab"
+                  role="tab"
+                  aria-selected="false"
+                  data-tab="project"
+                  data-list-url="/quokk/lists/lookbook.html?cate_no=43">
+            Project
+          </button>
+
+          <button type="button"
+                  class="panel-tab"
+                  role="tab"
+                  aria-selected="true"
+                  data-tab="content"
+                  data-list-url="/quokk/lists/lookbook.html?cate_no=43">
+            Content
+          </button>
+        </div>
+
+        <!-- 리스트가 들어갈 영역 -->
+        <div class="panel-list__body" id="panel-list-body">
+          <p class="panel-placeholder">
+            왼쪽에서 <strong>Project</strong>를 누르면 리스트가 로딩됩니다.
+          </p>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- 3. 오른쪽 뷰 영역 -->
+    <main class="quok-view" id="quok-view">
+      <div id="view-root">
+        <!-- 기본 Home 화면 -->
+        <section class="home-view">
+          <h1 class="home-title">Home</h1>
+          <p class="home-desc">
+            여기는 기본 홈 화면입니다.<br>
+            왼쪽에서 <strong>Project</strong>를 누르면 가운데 리스트(lookbook / project / content),
+            오른쪽에 상세가 SPA 방식으로 열립니다.
+          </p>
+        </section>
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<!-- JS -->
+<!--@js(/quokk/js/spa-helper.js)-->
+<!--@js(/quokk/js/view-home.js)-->
+<!--@js(/quokk/js/view-web.js)-->
+<!--@js(/quokk/js/view-guide.js)-->
+<!--@js(/quokk/js/view-contact.js)-->
+<!--@js(/quokk/js/view-book.js)-->
+<!--@js(/quokk/js/top-text-marquee.js)-->
+<!--@js(/quokk/js/spa-shell.js)-->
+<!--@js(/quokk/js/vendor/splide.min.js)-->
+<!--@js(/quokk/js/vendor/splide-auto-scroll.min.js)-->
+<!--@js(/quokk/js/pd-gallery.js)-->
+
+<!--@define(cmc_log)-->

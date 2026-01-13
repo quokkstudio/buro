@@ -1,0 +1,40 @@
+<!-- /quokk/views/product-1.html -->
+<!--@layout(/layout/basic/layout.html)-->
+
+<div data-spa-fragment="view" class="product-view quok-pd2" module="product_detail">
+  <!--@import(/quokk/module/product-head.html)-->
+  <div class="pd2-content">
+    <!-- 갤러리(가로 드래그/오토플레이: transform 방식이라 스크롤바 없음) -->
+    <section class="pd2-gallery splide" data-pd-gallery data-carousel>
+      <div class="pd2-viewport splide__track">
+        <ul class="pd2-track splide__list" data-pd-track>
+
+          <!-- 0번: 대표 이미지 -->
+          <li class="pd2-slide pd2-slide--main splide__slide" module="product_image">
+            <img src="{$big_img}" alt="">
+          </li>
+
+          <!-- 1..N: 추가 이미지들 -->
+          <li class="pd2-slide splide__slide" module="product_addimage">
+            {$add_img}
+          </li>
+
+        </ul>
+      </div>
+    </section>
+
+    <!-- 하단 고정 정보(상품명 + 한줄설명만) -->
+    <section class="pd2-bottom" data-pd-bottom>
+      <div class="pd2-bottom-inner">
+        <div class="pd2-title-row">
+          <h1 class="pd2-title">{$name}</h1>
+        </div>
+        <p class="pd2-desc pd2-desc--simple">{$simple_desc}</p>
+        <p class="pd2-desc pd2-desc--simple-alt">{$simple_description}</p>
+        <p class="pd2-desc pd2-desc--summary">{$summary_desc}</p>
+        <p class="pd2-desc pd2-desc--summary-alt">{$summary_description}</p>
+      </div>
+    </section>
+  </div>
+
+</div>

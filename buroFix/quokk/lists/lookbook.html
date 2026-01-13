@@ -1,0 +1,53 @@
+<!-- /product/lookbook.html -->
+<!--@layout(/layout/basic/layout.html)-->
+
+<div data-spa-fragment="list" class="quok-lookbook-list">
+  <div module="product_normalpackage">
+
+    <div module="product_listnormal" class="ec-base-product">
+      <!--
+        $count = 99
+        $basket_result = /product/add_basket.html
+        $basket_option = /product/basket_option.html
+      -->
+      <ul class="prdList grid2">
+        <li id="anchorBoxId_{$product_no}">
+          <div class="thumbnail">
+            <div class="prdImg">
+              <a href="{$link_product_detail}" name="anchorBoxName_{$product_no}">
+                <img src="{$image_medium}" id="{$image_medium_id}" alt="{$seo_alt_tag}" />
+              </a>
+            </div>
+          </div>
+
+          <div class="description">
+            <strong class="name">
+              <a href="{$link_product_detail}" class="{$product_name_display|display}">
+                {$product_name}
+              </a>
+            </strong>
+          </div>
+        </li>
+
+        <li id="anchorBoxId_{$product_no}">
+          <div class="thumbnail">
+            <div class="prdImg">
+              <a href="{$link_product_detail}" name="anchorBoxName_{$product_no}">
+                <img src="{$image_medium}" id="{$image_medium_id}" alt="{$seo_alt_tag}" />
+              </a>
+            </div>
+          </div>
+
+          <div class="description">
+            <strong class="name">
+              <a href="{$link_product_detail}" class="{$product_name_display|display}">
+                {$product_name}
+              </a>
+            </strong>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>

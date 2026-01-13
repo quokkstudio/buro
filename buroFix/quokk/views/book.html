@@ -1,0 +1,721 @@
+﻿<div class="spa-view" data-spa-view="book">
+  <section class="hire-chat" data-hire-chat>
+
+<div class="chat-sequence chat-sequence--lead" data-sequence="lead">
+      <div class="chat-block chat-block--intro" data-chat-block data-auto-next="true">
+        <div class="chat-message chat-message--agent" data-chat-question>
+          <span class="chat-avatar" aria-hidden="true">😊</span>
+          <div class="chat-bubble">
+            <p>안녕하세요! 문의 주셔서 감사합니다. 😊</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-block chat-block--intro" data-chat-block data-auto-next="true">
+        <div class="chat-message chat-message--agent" data-chat-question>
+          <span class="chat-avatar" aria-hidden="true">🙌</span>
+          <div class="chat-bubble">
+            <p>저는 뷰로픽스의 상담실장 카르멘입니다. 👋</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-block" data-chat-block data-trigger="identity" data-echo-template="{answer}" data-echo-emoji="" data-identity-template="{name}&#10;{role}&#10;{brand}">
+
+      <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+      <div class="chat-card chat-card--stacked" data-multi-stack>
+        <p class="chat-card__eyebrow">👋 반갑습니다, 카르멘님!</p>
+        <div class="chat-card__field chat-card__field--stacked is-active" data-multi-field="name">
+          <span class="chat-card__label">내 이름은</span>
+          <input type="text" name="lead-name" placeholder="김현아" data-field-key="name">
+        </div>
+        <div class="chat-card__field chat-card__field--stacked" data-multi-field="role" hidden>
+          <span class="chat-card__label">저는</span>
+          <input type="text" name="lead-role" placeholder="브랜드 MD" data-field-key="role">
+        </div>
+        <div class="chat-card__field chat-card__field--stacked" data-multi-field="brand" hidden>
+          <span class="chat-card__label">브랜드 이름은</span>
+          <input type="text" name="lead-brand" placeholder="크리스마스 컴퍼니" data-field-key="brand">
+        </div>
+        <button type="button" class="chat-card__submit chat-card__submit--mini" data-multi-submit>OK ↩</button>
+      </div>
+    </div>
+    <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+      <div class="chat-bubble chat-bubble--user">
+        <span class="chat-bubble__emoji" data-echo-emoji>👋</span>
+        <p data-echo-text></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-block" data-chat-block data-trigger="scenario" data-echo-template="{answer}" data-echo-emoji="❔" data-summary-key="scenario" data-summary-label="상담 카테고리">
+        <div class="chat-message chat-message--agent" data-chat-question>
+          <span class="chat-avatar" aria-hidden="true">❔</span>
+          <div class="chat-bubble">
+            <p data-user-template="{name}님, 만나서 반가워요. 어떤 도움을 드릴까요?" data-user-default="어떤 도움을 드릴까요?">어떤 도움을 드릴까요?</p>
+            <p>희망하는 상담 유형을 골라주세요.</p>
+          </div>
+        </div>
+    <div class="chat-message chat-message--client chat-message--input chat-message--scenario" data-chat-answer>
+      <div class="chat-card">
+        <p class="chat-card__label">원하는 상담</p>
+        <div class="chat-card__options chat-card__options--buttons">
+          <button type="button" class="chat-option-btn" data-scenario-option="lookbook">룩북 촬영</button>
+          <button type="button" class="chat-option-btn" data-scenario-option="contents">콘텐츠 촬영</button>
+          <button type="button" class="chat-option-btn" data-scenario-option="product">제품 촬영</button>
+          <button type="button" class="chat-option-btn" data-scenario-option="website">웹사이트 제작</button>
+        </div>
+      </div>
+    </div>
+    <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+      <div class="chat-bubble chat-bubble--user">
+        <span class="chat-bubble__emoji" data-echo-emoji>❔</span>
+        <p data-echo-text></p>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="chat-threads" data-chat-threads>
+        <article class="chat-thread is-active" data-scenario-thread="lookbook">
+          <div class="chat-block chat-block--intro" data-chat-block data-auto-next="true">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">📸</span>
+              <div class="chat-bubble">
+                <p>룩북 촬영 관련해서 문의주셨군요!</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="text" data-echo-template="촬영 희망일: {answer}" data-echo-emoji="🗓️" data-summary-key="lookbook-date" data-summary-label="룩북 촬영 날짜">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">🗓️</span>
+              <div class="chat-bubble">
+                <p>먼저, 희망하시는 촬영 날짜를 알려주세요.</p>
+                <p class="chat-bubble__sub">가능 여부 확인해드릴게요!</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <label class="chat-card__field" data-date-field>
+                  <span class="chat-card__label">촬영 날짜</span>
+                  <input type="date" name="lookbook-date" data-date-input>
+                </label>
+                <button type="button" class="chat-card__submit" data-chat-confirm>OK ↴</button>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>🗓️</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="option" data-echo-template="장소: {answer}" data-echo-emoji="📍" data-summary-key="lookbook-location" data-summary-label="룩북 촬영 장소">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">📍</span>
+              <div class="chat-bubble">
+                <p>촬영은 어디에서 진행하실 예정인가요?</p>
+                <p class="chat-bubble__sub">뷰로픽스 스튜디오 / 렌트 스튜디오 / 브랜드 자체 공간 모두 가능해요.</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <p class="chat-card__label">촬영 장소</p>
+                <div class="chat-card__options">
+                  <label class="chat-option"><input type="radio" name="lookbook-location" value="studio"> <span>뷰로픽스 스튜디오</span></label>
+                  <label class="chat-option"><input type="radio" name="lookbook-location" value="rent"> <span>렌트 스튜디오</span></label>
+                  <label class="chat-option"><input type="radio" name="lookbook-location" value="brand"> <span>브랜드 자체 공간</span></label>
+                </div>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>📍</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="option" data-echo-template="촬영 시간: {answer}" data-echo-emoji="⏱️" data-summary-key="lookbook-time" data-summary-label="룩북 촬영 시간">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">⏱️</span>
+              <div class="chat-bubble">
+                <p>촬영 시간을 알려주세요.</p>
+                <p class="chat-bubble__sub">잘 모르신다면 상담 후 결정하셔도 괜찮습니다.</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <p class="chat-card__label">촬영 시간</p>
+                <div class="chat-card__options">
+                  <label class="chat-option"><input type="radio" name="lookbook-duration" value="하프데이"> <span>하프데이 (4시간)</span></label>
+                  <label class="chat-option"><input type="radio" name="lookbook-duration" value="풀데이"> <span>풀데이 (8시간)</span></label>
+                  <label class="chat-option"><input type="radio" name="lookbook-duration" value="미정"> <span>기타 / 미정</span></label>
+                </div>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>⏱️</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="option" data-require-confirm="true" data-echo-template="캐스팅: {answer}" data-echo-emoji="🧑‍🎤" data-summary-key="lookbook-casting" data-summary-label="룩북 캐스팅">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">🧑‍🎤</span>
+              <div class="chat-bubble">
+                <p>모델 캐스팅은 어떻게 준비하고 계신가요?</p>
+                <p class="chat-bubble__sub">필요하시면 저희가 모델 에이전시 리스트를 보내드릴 수 있어요.</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <p class="chat-card__label">캐스팅 진행 상황</p>
+                <div class="chat-card__options">
+                  <label class="chat-option"><input type="checkbox" name="lookbook-casting" value="내부"> <span>내부 섭외 진행 중</span></label>
+                  <label class="chat-option"><input type="checkbox" name="lookbook-casting" value="추천"> <span>추천 에이전시 소개 원해요</span></label>
+                  <label class="chat-option"><input type="checkbox" name="lookbook-casting" value="리스트"> <span>모델 리스트 공유 필요</span></label>
+                </div>
+                <button type="button" class="chat-card__submit" data-chat-confirm>완료 ↴</button>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>🧑‍🎤</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="option" data-echo-template="헤어/메이크업: {answer}" data-echo-emoji="💄" data-summary-key="lookbook-hmu" data-summary-label="룩북 헤어/메이크업">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">💄</span>
+              <div class="chat-bubble">
+                <p>헤어 &amp; 메이크업 실장님은 이미 섭외하셨나요?</p>
+                <p class="chat-bubble__sub">아니면 저희가 연결 도와드릴 수도 있어요!</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <p class="chat-card__label">헤어/메이크업</p>
+                <div class="chat-card__options">
+                  <label class="chat-option"><input type="radio" name="lookbook-hmu" value="완료"> <span>이미 섭외 완료</span></label>
+                  <label class="chat-option"><input type="radio" name="lookbook-hmu" value="추천"> <span>추천 부탁드려요</span></label>
+                </div>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>💄</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="text" data-echo-template="참고 메모: {answer}" data-echo-emoji="📝" data-summary-key="lookbook-note" data-summary-label="룩북 메모">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">📝</span>
+              <div class="chat-bubble">
+                <p>기타 요청 사항이나 참고 이미지가 있으시면 알려주세요.</p>
+                <p class="chat-bubble__sub">가능한 방향으로 준비해드릴게요.</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <label class="chat-card__field">
+                  <span class="chat-card__label">참고 사항</span>
+                  <textarea rows="3" name="lookbook-note" placeholder="희망하는 무드, 링크 등"></textarea>
+                </label>
+                <button type="button" class="chat-card__submit" data-chat-confirm>OK ↴</button>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>📝</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="text" data-echo-template="연락처: {answer}" data-echo-emoji="📞" data-summary-key="lookbook-phone" data-summary-label="룩북 연락처">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">🙏</span>
+              <div class="chat-bubble">
+                <p>네, 답변 감사합니다!</p>
+                <p>말씀해 주신 내용은 내부에서 검토 후, 담당자가 최대한 빠르게 다시 연락드릴게요. 🙏</p>
+                <p>마지막으로 연락드릴 전화번호를 남겨주시면 더 빠르게 안내 도와드릴 수 있어요!</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <label class="chat-card__field">
+                  <span class="chat-card__label">연락 가능한 번호</span>
+                  <input type="tel" name="lookbook-phone" placeholder="01012345678" inputmode="numeric" pattern="[0-9]*" autocomplete="tel">
+                </label>
+                <button type="button" class="chat-card__submit" data-chat-confirm>OK ↴</button>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>📞</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="chat-thread" data-scenario-thread="contents">
+          <div class="chat-block chat-block--intro" data-chat-block data-auto-next="true">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">🎬</span>
+              <div class="chat-bubble">
+                <p>콘텐츠 촬영 관련해서 문의주셨군요!</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="text" data-echo-template="촬영 날짜: {answer}" data-echo-emoji="🗓️" data-summary-key="contents-date" data-summary-label="콘텐츠 촬영 날짜">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">🗓️</span>
+              <div class="chat-bubble">
+                <p>먼저, 희망하시는 촬영 날짜를 알려주세요.</p>
+                <p class="chat-bubble__sub">가능 여부 확인해드릴게요!</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <label class="chat-card__field" data-date-field>
+                  <span class="chat-card__label">촬영 날짜</span>
+                  <input type="date" name="contents-date" data-date-input>
+                </label>
+                <button type="button" class="chat-card__submit" data-chat-confirm>OK ↴</button>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>🗓️</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="option" data-echo-template="장소: {answer}" data-echo-emoji="📍" data-summary-key="contents-location" data-summary-label="콘텐츠 촬영 장소">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">📍</span>
+              <div class="chat-bubble">
+                <p>촬영은 어디에서 진행하실 예정인가요?</p>
+                <p class="chat-bubble__sub">저희 스튜디오 / 렌트 스튜디오 / 브랜드 자체 공간 모두 가능해요.</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <p class="chat-card__label">촬영 장소</p>
+                <div class="chat-card__options">
+                  <label class="chat-option"><input type="radio" name="contents-location" value="스튜디오"> <span>뷰로픽스 스튜디오</span></label>
+                  <label class="chat-option"><input type="radio" name="contents-location" value="로케이션"> <span>로케이션 렌탈</span></label>
+                  <label class="chat-option"><input type="radio" name="contents-location" value="사내"> <span>사내 공간</span></label>
+                </div>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>📍</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="option" data-echo-template="진행 시간: {answer}" data-echo-emoji="⏱️" data-summary-key="contents-time" data-summary-label="콘텐츠 촬영 시간">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">⏱️</span>
+              <div class="chat-bubble">
+                <p>희망하시는 촬영 시간을 알려주세요.</p>
+                <p class="chat-bubble__sub">잘 모르신다면 상담 후 결정하셔도 괜찮습니다.</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <p class="chat-card__label">진행 시간</p>
+                <div class="chat-card__options">
+                  <label class="chat-option"><input type="radio" name="contents-duration" value="하프데이"> <span>하프데이</span></label>
+                  <label class="chat-option"><input type="radio" name="contents-duration" value="풀데이"> <span>풀데이</span></label>
+                  <label class="chat-option"><input type="radio" name="contents-duration" value="미정"> <span>아직 미정</span></label>
+                </div>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>⏱️</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="option" data-require-confirm="true" data-echo-template="출연: {answer}" data-echo-emoji="🧑‍🤝‍🧑" data-summary-key="contents-cast" data-summary-label="콘텐츠 출연 계획">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">🧑‍🤝‍🧑</span>
+              <div class="chat-bubble">
+                <p>모델 캐스팅은 어떻게 준비하고 계신가요?</p>
+                <p class="chat-bubble__sub">필요하시면 저희가 모델 에이전시 리스트를 보내드릴 수 있어요.</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <p class="chat-card__label">출연 계획</p>
+                <div class="chat-card__options">
+                  <label class="chat-option"><input type="checkbox" name="contents-cast" value="내부"> <span>내부 출연 예정</span></label>
+                  <label class="chat-option"><input type="checkbox" name="contents-cast" value="모델"> <span>모델 캐스팅 필요</span></label>
+                  <label class="chat-option"><input type="checkbox" name="contents-cast" value="크리에이터"> <span>크리에이터 섭외 요청</span></label>
+                </div>
+                <button type="button" class="chat-card__submit" data-chat-confirm>완료 ↴</button>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>🧑‍🤝‍🧑</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="option" data-echo-template="헤어/메이크업: {answer}" data-echo-emoji="💄" data-summary-key="contents-hmu" data-summary-label="콘텐츠 헤어/메이크업">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">💄</span>
+              <div class="chat-bubble">
+                <p>헤어 &amp; 메이크업 실장님은 이미 섭외하셨나요?</p>
+                <p class="chat-bubble__sub">아니면 저희가 연결 도와드릴 수도 있어요!</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <p class="chat-card__label">헤어/메이크업</p>
+                <div class="chat-card__options">
+                  <label class="chat-option"><input type="radio" name="contents-hmu" value="자체"> <span>자체 진행</span></label>
+                  <label class="chat-option"><input type="radio" name="contents-hmu" value="연결"> <span>파트너 연결 원함</span></label>
+                </div>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>💄</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="text" data-echo-template="참고 사항: {answer}" data-echo-emoji="📝" data-summary-key="contents-note" data-summary-label="콘텐츠 메모">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">📝</span>
+              <div class="chat-bubble">
+                <p>기타 요청 사항이나 참고 이미지가 있으시면 함께 보내주세요.</p>
+                <p class="chat-bubble__sub">가능한 방향으로 준비해드릴게요.</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <label class="chat-card__field">
+                  <span class="chat-card__label">참고 사항</span>
+                  <textarea rows="3" name="contents-note" placeholder="콘텐츠 톤, 링크 등"></textarea>
+                </label>
+                <button type="button" class="chat-card__submit" data-chat-confirm>OK ↴</button>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>📝</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="text" data-echo-template="연락처: {answer}" data-echo-emoji="📞" data-summary-key="contents-phone" data-summary-label="콘텐츠 연락처">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">🙏</span>
+              <div class="chat-bubble">
+                <p>네, 답변 감사합니다!</p>
+                <p>말씀해 주신 내용은 내부에서 검토 후, 담당자가 최대한 빠르게 다시 연락드릴게요. 🙏</p>
+                <p>마지막으로 연락드릴 전화번호를 남겨주시면 더 빠르게 안내 도와드릴 수 있어요!</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <label class="chat-card__field">
+                  <span class="chat-card__label">연락 가능한 번호</span>
+                  <input type="tel" name="contents-phone" placeholder="01012345678" inputmode="numeric" pattern="[0-9]*" autocomplete="tel">
+                </label>
+                <button type="button" class="chat-card__submit" data-chat-confirm>OK ↴</button>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>📞</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="chat-thread" data-scenario-thread="product">
+          <div class="chat-block chat-block--intro" data-chat-block data-auto-next="true">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">🛍️</span>
+              <div class="chat-bubble">
+                <p>제품사진 촬영 관련해서 문의주셨군요!</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="option" data-require-confirm="true" data-echo-template="제품 종류: {answer}" data-echo-emoji="📦" data-summary-key="product-type" data-summary-label="제품 촬영 종류">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">📦</span>
+              <div class="chat-bubble">
+                <p>이번에 촬영할 제품의 종류는 무엇인가요? 중복 선택이 가능합니다!!</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <p class="chat-card__label">제품 종류</p>
+                <div class="chat-card__options">
+                  <label class="chat-option"><input type="checkbox" name="product-type" value="의류"> <span>의류</span></label>
+                  <label class="chat-option"><input type="checkbox" name="product-type" value="가방"> <span>가방</span></label>
+                  <label class="chat-option"><input type="checkbox" name="product-type" value="ACC"> <span>ACC</span></label>
+                  <label class="chat-option"><input type="checkbox" name="product-type" value="기타"> <span>기타(액세서리 등)</span></label>
+                </div>
+                <button type="button" class="chat-card__submit" data-chat-confirm>완료 ↴</button>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>📦</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="text" data-echo-template="총 수량: {answer}" data-echo-emoji="🔢" data-summary-key="product-qty" data-summary-label="제품 총 SKU">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">🔢</span>
+              <div class="chat-bubble">
+                <p>제품은 전체 몇 SKU 인가요?</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <label class="chat-card__field">
+                  <span class="chat-card__label">총 수량</span>
+                  <input type="text" name="product-qty" placeholder="예: 의류 30개 / 가방 6개">
+                </label>
+                <button type="button" class="chat-card__submit" data-chat-confirm>OK ↴</button>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>🔢</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="text" data-echo-template="희망 납품일: {answer}" data-echo-emoji="📅" data-summary-key="product-delivery" data-summary-label="제품 희망 납품일">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">📅</span>
+              <div class="chat-bubble">
+                <p>결과물을 받길 원하시는 날짜가 어떻게 되나요?</p>
+                <p class="chat-bubble__sub">일정 체크 후 안내드릴게요.</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <label class="chat-card__field" data-date-field>
+                  <span class="chat-card__label">희망 전달일</span>
+                  <input type="date" name="product-delivery" data-date-input>
+                </label>
+                <button type="button" class="chat-card__submit" data-chat-confirm>OK ↴</button>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>📅</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="text" data-echo-template="참고 사항: {answer}" data-echo-emoji="📝" data-summary-key="product-note" data-summary-label="제품 메모">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">📝</span>
+              <div class="chat-bubble">
+                <p>기타 요청 사항이나 참고 이미지가 있으시면 함께 보내주세요.</p>
+                <p class="chat-bubble__sub">가능한 방향으로 준비해드릴게요.</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <label class="chat-card__field">
+                  <span class="chat-card__label">참고 사항</span>
+                  <textarea rows="3" name="product-note" placeholder="예: 가벼운 사막 배경, 톤앤매너 등"></textarea>
+                </label>
+                <button type="button" class="chat-card__submit" data-chat-confirm>OK ↴</button>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>📝</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="text" data-echo-template="연락처: {answer}" data-echo-emoji="📞" data-summary-key="product-phone" data-summary-label="제품 연락처">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">🙏</span>
+              <div class="chat-bubble">
+                <p>네, 답변 감사합니다!</p>
+                <p>말씀해 주신 내용은 내부에서 검토 후, 담당자가 최대한 빠르게 다시 연락드릴게요. 🙏</p>
+                <p>마지막으로 연락드릴 전화번호를 남겨주시면 더 빠르게 안내 도와드릴 수 있어요!</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <label class="chat-card__field">
+                  <span class="chat-card__label">연락 가능한 번호</span>
+                  <input type="tel" name="product-phone" placeholder="01012345678" inputmode="numeric" pattern="[0-9]*" autocomplete="tel">
+                </label>
+                <button type="button" class="chat-card__submit" data-chat-confirm>OK ↴</button>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>📞</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="chat-thread" data-scenario-thread="website">
+          <div class="chat-block chat-block--intro" data-chat-block data-auto-next="true">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">💻</span>
+              <div class="chat-bubble">
+                <p>웹사이트 제작 관련해서 문의주셨군요!</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="text" data-echo-template="참고 방향: {answer}" data-echo-emoji="🧭" data-summary-key="website-reference" data-summary-label="웹사이트 참고 방향">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">🧭</span>
+              <div class="chat-bubble">
+                <p>어떤 웹사이트 제작을 원하시는지 참고할 웹사이트 주소와 함께 설명해주세요.</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <label class="chat-card__field">
+                  <span class="chat-card__label">희망 방향</span>
+                  <textarea rows="3" name="website-reference" placeholder="예: 브랜드 스토리 중심 / https://example.com 참고"></textarea>
+                </label>
+                <button type="button" class="chat-card__submit" data-chat-confirm>OK ↴</button>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>🧭</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="text" data-echo-template="희망 오픈: {answer}" data-echo-emoji="📅" data-summary-key="website-launch" data-summary-label="웹사이트 희망 오픈일">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">📅</span>
+              <div class="chat-bubble">
+                <p>웹사이트 제작 완료 후 오픈은 언제쯤으로 계획하시나요?</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <label class="chat-card__field" data-date-field>
+                  <span class="chat-card__label">희망 오픈일</span>
+                  <input type="date" name="website-launch" data-date-input>
+                </label>
+                <button type="button" class="chat-card__submit" data-chat-confirm>OK ↴</button>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>📅</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="text" data-echo-template="예산: {answer}" data-echo-emoji="💰" data-summary-key="website-budget" data-summary-label="웹사이트 예산">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">💰</span>
+              <div class="chat-bubble">
+                <p>웹사이트 제작 관련 대략의 예산은 어떻게 되나요?</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <label class="chat-card__field">
+                  <span class="chat-card__label">예상 예산</span>
+                  <input type="text" name="website-budget" placeholder="예: 2천만 원 내외">
+                </label>
+                <button type="button" class="chat-card__submit" data-chat-confirm>OK ↴</button>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>💰</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-block" data-chat-block data-trigger="text" data-echo-template="연락처: {answer}" data-echo-emoji="📞" data-summary-key="website-phone" data-summary-label="웹사이트 연락처">
+            <div class="chat-message chat-message--agent" data-chat-question>
+              <span class="chat-avatar" aria-hidden="true">🙏</span>
+              <div class="chat-bubble">
+                <p>네, 답변 감사합니다!</p>
+                <p>말씀해 주신 내용은 내부에서 검토 후, 담당자가 최대한 빠르게 다시 연락드릴게요. 🙏</p>
+                <p>마지막으로 연락드릴 전화번호를 남겨주시면 더 빠르게 안내 도와드릴 수 있어요!</p>
+              </div>
+            </div>
+            <div class="chat-message chat-message--client chat-message--input" data-chat-answer>
+              <div class="chat-card">
+                <label class="chat-card__field">
+                  <span class="chat-card__label">연락 가능한 번호</span>
+                  <input type="tel" name="website-phone" placeholder="01012345678" inputmode="numeric" pattern="[0-9]*" autocomplete="tel">
+                </label>
+                <button type="button" class="chat-card__submit" data-chat-confirm>OK ↴</button>
+              </div>
+            </div>
+            <div class="chat-message chat-message--agent chat-message--echo" data-chat-echo>
+              <div class="chat-bubble chat-bubble--user">
+                <span class="chat-bubble__emoji" data-echo-emoji>📞</span>
+                <p data-echo-text></p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="chat-summary">
+        <button type="button" class="chat-summary__button" data-summary-open>전송 내용 확인</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="chat-summary-modal" data-summary-modal hidden>
+  <div class="chat-summary-modal__backdrop" data-summary-close></div>
+  <div class="chat-summary-modal__dialog" role="dialog" aria-modal="true">
+    <div class="chat-summary-modal__header">
+      <h3>메일에 담길 내용</h3>
+      <button type="button" class="chat-summary-modal__close" data-summary-close>닫기</button>
+    </div>
+    <pre class="chat-summary-modal__body" data-summary-output>아직 입력된 내용이 없습니다.</pre>
+  </div>
+</div>
