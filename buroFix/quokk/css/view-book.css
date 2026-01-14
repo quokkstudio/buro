@@ -366,7 +366,7 @@
 }
 
 .chat-card__submit {
-  margin-top: 0;
+  margin-top: 20px;
   border: none;
   border-radius: 999px;
   padding: 6px 12px;
