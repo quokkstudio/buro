@@ -199,6 +199,9 @@
   box-shadow: none;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   min-width: min(360px, 100%);
   color: rgba(15, 15, 15, 0.85);
 }
@@ -220,12 +223,14 @@
   display: block;
   font-weight: 600;
   color: rgba(25, 25, 25, 0.85);
+  font-size: 14px;
   margin:0 0 15px;
 }
 
 .chat-card__field {
   display: flex;
   flex-direction: column;
+  font-size: 0;
   gap: 3.5px;
 }
 
@@ -361,7 +366,7 @@
 }
 
 .chat-card__submit {
-  margin-top: 10px;
+  margin-top: 0;
   border: none;
   border-radius: 999px;
   padding: 6px 12px;
@@ -370,16 +375,21 @@
   background: #2f2111;
   color: #fff;
   cursor: pointer;
+  align-self: flex-end;
 }
 
 .chat-card__submit--mini {
   align-self: flex-end;
   padding: 4px 9px;
   font-size: 7.8px;
+  display: inline-flex;
+}
+
+.chat-card--stacked .chat-card__submit--mini {
   display: none;
 }
 
-[data-ready="true"] .chat-card__submit--mini {
+.chat-card--stacked[data-ready="true"] .chat-card__submit--mini {
   display: inline-flex;
 }
 
