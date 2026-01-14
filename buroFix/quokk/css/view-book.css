@@ -287,10 +287,9 @@
 
 .chat-option {
   position: relative;
-  display: flex;
-  align-items: center;
-  padding: 11px 0;
-  font-size: 0;
+  display: block;
+  padding: 12px 16px;
+  font-size: 14px;
   color: #3c2f22;
   background: transparent;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
@@ -313,9 +312,10 @@
 }
 
 .chat-option span {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  gap: 16px;
   width: 100%;
   line-height: 1.4;
   font-size: 14px;
@@ -323,47 +323,37 @@
 
 .chat-option span::after {
   content: "";
-  width: 18px;
-  height: 18px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  flex: 0 0 16px;
   margin-left: auto;
-  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px 16px;
+  transition: opacity 0.2s ease;
 }
 
 .chat-option input:checked + span {
-  font-weight: 600;
   color: #1f1a12;
 }
 
 /* 체크박스(다중): 네모 */
 .chat-option input[type="checkbox"] + span::after {
-  border-radius: 4px;
-  border: 1.5px solid rgba(0, 0, 0, 0.25);
-  background: transparent;
+  background-image: url("data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2016%2017%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M3.33594%202.80794C2.96775%202.80794%202.66927%203.10642%202.66927%203.47461V12.8079C2.66927%2013.1761%202.96775%2013.4746%203.33594%2013.4746H12.6693C13.0375%2013.4746%2013.3359%2013.1761%2013.3359%2012.8079V3.47461C13.3359%203.10642%2013.0375%202.80794%2012.6693%202.80794H3.33594ZM1.33594%203.47461C1.33594%202.37004%202.23137%201.47461%203.33594%201.47461H12.6693C13.7738%201.47461%2014.6693%202.37004%2014.6693%203.47461V12.8079C14.6693%2013.9125%2013.7738%2014.8079%2012.6693%2014.8079H3.33594C2.23137%2014.8079%201.33594%2013.9125%201.33594%2012.8079V3.47461Z%22%20fill%3D%22currentColor%22%20fill-opacity%3D%220.25%22/%3E%3C/svg%3E");
 }
 
 .chat-option input[type="checkbox"]:checked + span::after {
-  border-color: #2f2111;
-  background: #2f2111;
-  content: "✓";
-  color: #fff;
-  font-size: 12px;
-  line-height: 1;
+  background-image: url("data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2016%2017%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M3.33594%202.80794C3.15913%202.80794%202.98956%202.87818%202.86453%203.0032C2.73951%203.12823%202.66927%203.2978%202.66927%203.47461V12.8079C2.66927%2012.9848%202.73951%2013.1543%202.86453%2013.2793C2.98956%2013.4044%203.15913%2013.4746%203.33594%2013.4746H12.6693C12.8461%2013.4746%2013.0157%2013.4044%2013.1407%2013.2793C13.2657%2013.1543%2013.3359%2012.9848%2013.3359%2012.8079V8.14128C13.3359%207.77309%2013.6344%207.47461%2014.0026%207.47461C14.3708%207.47461%2014.6693%207.77309%2014.6693%208.14128V12.8079C14.6693%2013.3384%2014.4586%2013.8471%2014.0835%2014.2222C13.7084%2014.5972%2013.1997%2014.8079%2012.6693%2014.8079H3.33594C2.8055%2014.8079%202.2968%2014.5972%201.92172%2014.2222C1.54665%2013.8471%201.33594%2013.3384%201.33594%2012.8079V3.47461C1.33594%202.94418%201.54665%202.43547%201.92172%202.0604C2.2968%201.68532%202.8055%201.47461%203.33594%201.47461H10.6693C11.0375%201.47461%2011.3359%201.77309%2011.3359%202.14128C11.3359%202.50947%2011.0375%202.80794%2010.6693%202.80794H3.33594ZM14.1979%202.33654C14.4582%202.07619%2014.8803%202.07619%2015.1407%202.33654C15.401%202.59689%2015.401%203.019%2015.1407%203.27935L8.47401%209.94601C8.21366%2010.2064%207.79155%2010.2064%207.5312%209.94601L5.5312%207.94601C5.27085%207.68566%205.27085%207.26355%205.5312%207.00321C5.79155%206.74286%206.21366%206.74286%206.47401%207.00321L8.0026%208.5318L14.1979%202.33654Z%22%20fill%3D%22currentColor%22%20fill-opacity%3D%220.9%22/%3E%3C/svg%3E");
 }
 
 /* 라디오(단일): 네모 없이 체크만 */
 .chat-option input[type="radio"] + span::after {
-  border: 0;
-  background: transparent;
+  background-image: none;
 }
 
 .chat-option input[type="radio"]:checked + span::after {
-  content: "✓";
-  color: #2f2111;
-  font-size: 14px;
-  line-height: 1;
+  background-image: url("data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2016%2017%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M14.1979%202.33654C14.4582%202.07619%2014.8803%202.07619%2015.1407%202.33654C15.401%202.59689%2015.401%203.019%2015.1407%203.27935L8.47401%209.94601C8.21366%2010.2064%207.79155%2010.2064%207.5312%209.94601L5.5312%207.94601C5.27085%207.68566%205.27085%207.26355%205.5312%207.00321C5.79155%206.74286%206.21366%206.74286%206.47401%207.00321L8.0026%208.5318L14.1979%202.33654Z%22%20fill%3D%22currentColor%22%20fill-opacity%3D%220.9%22/%3E%3C/svg%3E");
 }
 
 .chat-option:hover {
