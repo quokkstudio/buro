@@ -288,8 +288,8 @@
 .chat-option {
   position: relative;
   display: block;
-  padding: 12px 16px;
-  font-size: 14px;
+  padding: 12px 0;
+  font-size: 0;
   color: #3c2f22;
   background: transparent;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
