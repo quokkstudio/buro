@@ -167,6 +167,7 @@
     // 요청 경합 방지
     let listAbort = null;
     let viewAbort = null;
+    let listDeferTimer = null;
 
     // 상태
     const state = {
@@ -398,6 +399,14 @@
       panelListBody.classList.add(`is-${tabKey}`);
     }
 
+    const scheduleListLoad = (url) => {
+      if (listDeferTimer) clearTimeout(listDeferTimer);
+      listDeferTimer = setTimeout(() => {
+        listDeferTimer = null;
+        loadList(url).catch(console.error);
+      }, 300);
+    };
+
     const resetListPaging = () => {
       if (listObserver) {
         listObserver.disconnect();
@@ -407,6 +416,10 @@
         listSentinel.parentNode.removeChild(listSentinel);
       }
       listSentinel = null;
+      if (listDeferTimer) {
+        clearTimeout(listDeferTimer);
+        listDeferTimer = null;
+      }
       if (listPageAbort) {
         listPageAbort.abort();
         listPageAbort = null;
@@ -567,7 +580,7 @@
         panelTabs[0];
 
       if (activeTab) {
-        await applyTab(activeTab, { autoOpenFirst: false, pushHash: false });
+        await applyTab(activeTab, { autoOpenFirst: false, pushHash: false, deferLoad: true });
         saveOverlayTab(activeTab.dataset.tab || "");
       }
 
@@ -955,7 +968,9 @@
         // ✅ 핵심 변경: 프로젝트 들어와도 오른쪽은 그대로 유지
         // 리스트만 로드하고, 첫 상품 자동 오픈 금지
         const shouldAutoOpen = forceAutoOpen && !state.viewUrl;
-        if (activeTab) applyTab(activeTab, { autoOpenFirst: shouldAutoOpen }).catch(console.error);
+        if (activeTab)
+          applyTab(activeTab, { autoOpenFirst: shouldAutoOpen, deferLoad: prevMain !== "project" })
+            .catch(console.error);
         else pushHash();
         syncHomeMode();
         syncListOpenState();
@@ -982,7 +997,11 @@
     }
 
     async function applyTab(tabBtn, opts = {}) {
-      const { autoOpenFirst = false, pushHash: shouldPushHash = true } = opts;
+      const {
+        autoOpenFirst = false,
+        pushHash: shouldPushHash = true,
+        deferLoad = false,
+      } = opts;
 
       const tab = tabBtn.dataset.tab;
       const url = tabBtn.dataset.listUrl;
@@ -999,7 +1018,14 @@
         t.setAttribute("aria-selected", on ? "true" : "false");
       });
 
-      await loadList(url);
+      if (deferLoad) {
+        panelListBody.innerHTML = "";
+        panelListBody.classList.add("is-list-loading");
+        panelListBody.classList.remove("is-list-ready");
+        scheduleListLoad(url);
+      } else {
+        await loadList(url);
+      }
       if (viewRoot.classList.contains("is-pd")) syncPdCategoryLabel();
       if (shouldPushHash) pushHash();
 
