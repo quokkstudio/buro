@@ -5,17 +5,30 @@
   max-width: 100%;
   padding: 10px 20px 12px;
   box-sizing: border-box;
+  position: relative;
 }
 
 #panel-list-body.is-list-loading{
   opacity: 0;
-  background: #fff;
 }
 
 #panel-list-body.is-list-ready{
   opacity: 1;
   transition: opacity 0.25s ease;
-  background: transparent;
+}
+
+#panel-list-body.is-list-loading::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  opacity: 1;
+  pointer-events: none;
+}
+
+#panel-list-body.is-list-ready::before{
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
 
 #panel-list-body ul,
