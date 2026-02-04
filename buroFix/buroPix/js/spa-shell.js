@@ -13,6 +13,23 @@
 
     const parser = new DOMParser();
 
+    const SPA_ASSET_PREFIXES = ["/buroPix/"];
+    const skinBase = (() => {
+      const path = location.pathname || "/";
+      const match = path.match(/^\/(skin-[^/]+)(?:\/|$)/);
+      return match ? `/${match[1]}` : "";
+    })();
+
+    const withSkinBase = (path) => {
+      if (!path || typeof path !== "string") return path;
+      if (!skinBase) return path;
+      if (!path.startsWith("/")) return path;
+      if (path.startsWith(`${skinBase}/`)) return path;
+      return SPA_ASSET_PREFIXES.some((prefix) => path.startsWith(prefix))
+        ? `${skinBase}${path}`
+        : path;
+    };
+
     // ✅ 0) 헤더/상단바 높이 → CSS 변수 반영 + body 스크롤 잠금
     const HEADER_SELECTORS = [
       "#header",
@@ -123,11 +140,11 @@
     }
 
     const MAIN_VIEWS = {
-      home: "/buroPix/views/home.html",
-      web: "/buroPix/views/web.html",
-      guide: "/buroPix/views/guide.html",
-      contact: "/buroPix/views/contact.html",
-      book: "/buroPix/views/book.html",
+      home: withSkinBase("/buroPix/views/home.html"),
+      web: withSkinBase("/buroPix/views/web.html"),
+      guide: withSkinBase("/buroPix/views/guide.html"),
+      contact: withSkinBase("/buroPix/views/contact.html"),
+      book: withSkinBase("/buroPix/views/book.html"),
     };
 
     // 캐시
@@ -479,7 +496,7 @@
           return "";
         }
       }
-      return href;
+      return withSkinBase(href);
     }
 
     function extractProductNo(url) {
@@ -511,7 +528,7 @@
       const pn = extractProductNo(href);
       if (!pn) return "";
 
-      return `/buroPix/views/product-1.html?product_no=${encodeURIComponent(pn)}`;
+      return withSkinBase(`/buroPix/views/product-1.html?product_no=${encodeURIComponent(pn)}`);
     }
 
     // ---------- Core ----------
