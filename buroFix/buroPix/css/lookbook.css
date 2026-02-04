@@ -6,6 +6,8 @@
   padding: 10px 20px 12px;
   box-sizing: border-box;
   position: relative;
+  opacity: 1;
+  transition: opacity 0.25s ease;
 }
 
 #panel-list-body.is-list-loading{
@@ -14,7 +16,6 @@
 
 #panel-list-body.is-list-ready{
   opacity: 1;
-  transition: opacity 0.25s ease;
 }
 
 #panel-list-body.is-list-loading::before{
