@@ -1,4 +1,4 @@
-// /quokk/js/view-guide.js
+// /buroPix/js/view-guide.js
 (function () {
   function initGuideView({ viewRoot } = {}) {
     const view = viewRoot?.querySelector('.spa-view[data-spa-view="guide"]');

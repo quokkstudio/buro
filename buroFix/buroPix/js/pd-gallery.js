@@ -1,4 +1,4 @@
-// /quokk/js/pd-gallery.js
+// /buroPix/js/pd-gallery.js
 (() => {
   "use strict";
 

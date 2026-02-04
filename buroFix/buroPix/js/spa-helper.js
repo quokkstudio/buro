@@ -1,4 +1,4 @@
-// /quokk/js/spa-helper.js
+// /buroPix/js/spa-helper.js
 (() => {
   "use strict";
 

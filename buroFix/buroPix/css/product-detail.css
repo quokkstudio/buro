@@ -1,5 +1,5 @@
-/* /quokk/css/product-detail.css */
-@import url("/quokk/css/vendor/splide.min.css");
+/* /buroPix/css/product-detail.css */
+@import url("/buroPix/css/vendor/splide.min.css");
 /* ✅ 카드(#view-root) 안에서 100%로만 동작하도록 설계 (vh 사용 X) */
 
 .product-view.quok-pd2,

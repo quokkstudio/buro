@@ -1,4 +1,4 @@
-// /quokk/js/view-home.js
+// /buroPix/js/view-home.js
 (function () {
   function absoluteUrl(href) {
     try {

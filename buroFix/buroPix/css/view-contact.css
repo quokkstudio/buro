@@ -1,8 +1,8 @@
-/* /quokk/css/view-contact.css */
+/* /buroPix/css/view-contact.css */
 body.is-contact-view,
 body[data-quok-main="contact"]{
-  --contact-image: url("/quokk/img/contact/mask.png");
-  background: #0b0b0b url("/quokk/img/contact/mask.png") center/cover no-repeat !important;
+  --contact-image: url("/buroPix/img/contact/mask.png");
+  background: #0b0b0b url("/buroPix/img/contact/mask.png") center/cover no-repeat !important;
 }
 
 body.is-contact-view .quok-spa-wrap,

@@ -1,4 +1,4 @@
-// /quokk/js/top-text-marquee.js
+// /buroPix/js/top-text-marquee.js
 (() => {
   "use strict";
 

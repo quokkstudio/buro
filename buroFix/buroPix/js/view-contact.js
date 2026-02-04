@@ -1,4 +1,4 @@
-// /quokk/js/view-contact.js
+// /buroPix/js/view-contact.js
 (function () {
   function initContactView({ viewRoot } = {}) {
     const view = viewRoot?.querySelector('.spa-view[data-spa-view="contact"]');

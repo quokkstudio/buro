@@ -1,4 +1,4 @@
-// /quokk/js/spa-shell.js
+// /buroPix/js/spa-shell.js
 (() => {
   "use strict";
 
@@ -123,11 +123,11 @@
     }
 
     const MAIN_VIEWS = {
-      home: "/quokk/views/home.html",
-      web: "/quokk/views/web.html",
-      guide: "/quokk/views/guide.html",
-      contact: "/quokk/views/contact.html",
-      book: "/quokk/views/book.html",
+      home: "/buroPix/views/home.html",
+      web: "/buroPix/views/web.html",
+      guide: "/buroPix/views/guide.html",
+      contact: "/buroPix/views/contact.html",
+      book: "/buroPix/views/book.html",
     };
 
     // 캐시
@@ -506,12 +506,12 @@
       const href = normalizeHref(rawUrl);
       if (!href) return "";
 
-      if (href.includes("/quokk/views/product-1.html")) return href;
+      if (href.includes("/buroPix/views/product-1.html")) return href;
 
       const pn = extractProductNo(href);
       if (!pn) return "";
 
-      return `/quokk/views/product-1.html?product_no=${encodeURIComponent(pn)}`;
+      return `/buroPix/views/product-1.html?product_no=${encodeURIComponent(pn)}`;
     }
 
     // ---------- Core ----------

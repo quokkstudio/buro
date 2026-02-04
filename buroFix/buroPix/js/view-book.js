@@ -1,4 +1,4 @@
-// /quokk/js/view-book.js
+// /buroPix/js/view-book.js
 (function () {
   function initBookView({ viewRoot } = {}) {
     const view = viewRoot?.querySelector('.spa-view[data-spa-view="book"]');
