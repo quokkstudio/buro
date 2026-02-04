@@ -407,6 +407,13 @@
       }, 300);
     };
 
+    const prepareListClose = () => {
+      resetListPaging();
+      panelListBody.innerHTML = "";
+      panelListBody.classList.add("is-list-loading");
+      panelListBody.classList.remove("is-list-ready");
+    };
+
     const resetListPaging = () => {
       if (listObserver) {
         listObserver.disconnect();
@@ -601,6 +608,7 @@
     };
 
     const closeProjectSheet = () => {
+      prepareListClose();
       if (mobileMq.matches) {
         document.body.classList.remove("quok-sheet-open");
       } else {
@@ -980,6 +988,7 @@
         if (prevMain === "project") {
           mainWrap.classList.add("is-main-switch");
           mainWrap.classList.add("is-list-closed");
+          prepareListClose();
           setTimeout(() => {
             mainWrap.classList.remove("is-main-switch");
           }, 200);
@@ -1094,6 +1103,7 @@
             const willClose = !mainWrap.classList.contains("is-list-closed");
 
             if (willClose) {
+              prepareListClose();
               mainWrap.classList.add("is-list-closed");
             } else {
               mainWrap.classList.remove("is-list-closed");
