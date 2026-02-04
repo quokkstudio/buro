@@ -147,6 +147,10 @@
       book: withSkinBase("/buroPix/views/book.html"),
     };
 
+    const LIST_PAGE_SIZE = 6;
+    let listObserver = null;
+    let listSentinel = null;
+
     // 캐시
     const listCache = new Map(); // url -> html(string)
     const viewCache = new Map(); // url -> markup(string)
@@ -385,6 +389,87 @@
       panelListBody.classList.add(`is-${tabKey}`);
     }
 
+    const setupListReveal = (container) => {
+      if (!container) return;
+      if (listObserver) {
+        listObserver.disconnect();
+        listObserver = null;
+      }
+      if (listSentinel && listSentinel.parentNode) {
+        listSentinel.parentNode.removeChild(listSentinel);
+      }
+      listSentinel = null;
+
+      const list = container.querySelector(".prdList");
+      const items = list ? Array.from(list.children).filter((el) => el.tagName === "LI") : [];
+
+      container.classList.remove("is-list-ready");
+
+      if (!items.length) {
+        requestAnimationFrame(() => container.classList.add("is-list-ready"));
+        return;
+      }
+
+      items.forEach((item) => {
+        item.classList.add("spa-reveal-item");
+        item.classList.remove("is-revealed", "is-hidden");
+        item.style.removeProperty("display");
+        item.style.removeProperty("--reveal-delay");
+      });
+
+      const revealBatch = (start) => {
+        const end = Math.min(start + LIST_PAGE_SIZE, items.length);
+        for (let i = start; i < end; i += 1) {
+          const item = items[i];
+          item.classList.remove("is-hidden");
+          item.style.display = "";
+          item.style.setProperty("--reveal-delay", `${(i - start) * 40}ms`);
+          requestAnimationFrame(() => item.classList.add("is-revealed"));
+        }
+        return end;
+      };
+
+      if (items.length > LIST_PAGE_SIZE) {
+        for (let i = LIST_PAGE_SIZE; i < items.length; i += 1) {
+          const item = items[i];
+          item.classList.add("is-hidden");
+          item.classList.remove("is-revealed");
+          item.style.display = "none";
+        }
+      }
+
+      let nextIndex = revealBatch(0);
+
+      if (nextIndex < items.length) {
+        listSentinel = document.createElement("div");
+        listSentinel.className = "spa-reveal-sentinel";
+        list.appendChild(listSentinel);
+
+        const root = (() => {
+          const cs = getComputedStyle(container);
+          const overflowY = cs.overflowY;
+          if (!overflowY || overflowY === "visible") return null;
+          return container;
+        })();
+
+        listObserver = new IntersectionObserver(
+          (entries) => {
+            if (!entries.some((entry) => entry.isIntersecting)) return;
+            const start = nextIndex;
+            nextIndex = revealBatch(start);
+            if (nextIndex >= items.length && listObserver) {
+              listObserver.disconnect();
+              listObserver = null;
+            }
+          },
+          { root, rootMargin: "120px 0px", threshold: 0.01 }
+        );
+        listObserver.observe(listSentinel);
+      }
+
+      requestAnimationFrame(() => container.classList.add("is-list-ready"));
+    };
+
     const mobileMq = window.matchMedia("(max-width: 1024px)");
     let detailOverlayActive = false;
     let detailOverlayRaf = 0;
@@ -549,8 +634,13 @@
       url = normalizeHref(url);
       if (!url) return;
 
+      panelListBody.classList.add("is-list-loading");
+      panelListBody.classList.remove("is-list-ready");
+
       if (listCache.has(url)) {
         panelListBody.innerHTML = listCache.get(url);
+        panelListBody.classList.remove("is-list-loading");
+        setupListReveal(panelListBody);
         return;
       }
 
@@ -579,10 +669,14 @@
 
         listCache.set(url, bodyHTML);
         panelListBody.innerHTML = bodyHTML;
+        panelListBody.classList.remove("is-list-loading");
+        setupListReveal(panelListBody);
       } catch (e) {
         if (e?.name === "AbortError") return;
         console.error(e);
         panelListBody.innerHTML = `<p class="panel-placeholder">리스트를 불러오지 못했습니다.</p>`;
+        panelListBody.classList.remove("is-list-loading");
+        panelListBody.classList.add("is-list-ready");
       } finally {
         panelListBody.removeAttribute("aria-busy");
       }
