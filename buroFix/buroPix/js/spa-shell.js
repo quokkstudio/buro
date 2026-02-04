@@ -157,6 +157,7 @@
       loading: false,
       ended: false,
       listEl: null,
+      container: null,
     };
 
     // 캐시
@@ -477,6 +478,7 @@
         listPagingState.loading = false;
         listPagingState.ended = items.length < LIST_PAGE_SIZE;
         listPagingState.listEl = list;
+        listPagingState.container = container;
       }
 
       if (listPagingState.ended) {
@@ -486,7 +488,7 @@
 
       listSentinel = document.createElement("div");
       listSentinel.className = "spa-reveal-sentinel";
-      list.appendChild(listSentinel);
+      container.appendChild(listSentinel);
 
       const root = (() => {
         const cs = getComputedStyle(container);
@@ -756,6 +758,13 @@
           return;
         }
 
+        if (listSentinel && listSentinel.parentNode) {
+          listSentinel.parentNode.removeChild(listSentinel);
+        }
+        if (listObserver) {
+          listObserver.disconnect();
+        }
+
         const frag = document.createDocumentFragment();
         const appended = [];
         items.forEach((item) => {
@@ -769,6 +778,15 @@
         listPagingState.page = nextPage;
         if (items.length < LIST_PAGE_SIZE) {
           listPagingState.ended = true;
+        }
+
+        if (!listPagingState.ended && listPagingState.container) {
+          listSentinel = document.createElement("div");
+          listSentinel.className = "spa-reveal-sentinel";
+          listPagingState.container.appendChild(listSentinel);
+          if (listObserver) {
+            listObserver.observe(listSentinel);
+          }
         }
       } catch (e) {
         if (e?.name === "AbortError") return;

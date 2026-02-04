@@ -9,11 +9,13 @@
 
 #panel-list-body.is-list-loading{
   opacity: 0;
+  background: #fff;
 }
 
 #panel-list-body.is-list-ready{
   opacity: 1;
   transition: opacity 0.25s ease;
+  background: transparent;
 }
 
 #panel-list-body ul,
