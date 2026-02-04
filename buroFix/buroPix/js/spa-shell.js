@@ -150,6 +150,14 @@
     const LIST_PAGE_SIZE = 6;
     let listObserver = null;
     let listSentinel = null;
+    let listPageAbort = null;
+    const listPagingState = {
+      url: "",
+      page: 1,
+      loading: false,
+      ended: false,
+      listEl: null,
+    };
 
     // 캐시
     const listCache = new Map(); // url -> html(string)
@@ -389,7 +397,53 @@
       panelListBody.classList.add(`is-${tabKey}`);
     }
 
-    const setupListReveal = (container) => {
+    const resetListPaging = () => {
+      if (listObserver) {
+        listObserver.disconnect();
+        listObserver = null;
+      }
+      if (listSentinel && listSentinel.parentNode) {
+        listSentinel.parentNode.removeChild(listSentinel);
+      }
+      listSentinel = null;
+      if (listPageAbort) {
+        listPageAbort.abort();
+        listPageAbort = null;
+      }
+      listPagingState.url = "";
+      listPagingState.page = 1;
+      listPagingState.loading = false;
+      listPagingState.ended = false;
+      listPagingState.listEl = null;
+    };
+
+    const buildPagedUrl = (url, page) => {
+      if (!url) return url;
+      try {
+        const u = new URL(url, location.origin);
+        u.searchParams.set("page", String(page));
+        return u.pathname + u.search + u.hash;
+      } catch {
+        return url;
+      }
+    };
+
+    const revealItems = (items) => {
+      if (!items || !items.length) return;
+      items.forEach((item, idx) => {
+        item.classList.add("spa-reveal-item");
+        item.classList.remove("is-hidden");
+        item.style.display = "";
+        item.style.setProperty("--reveal-delay", `${idx * 40}ms`);
+        item.querySelectorAll("img").forEach((img) => {
+          img.loading = "lazy";
+          img.decoding = "async";
+        });
+        requestAnimationFrame(() => item.classList.add("is-revealed"));
+      });
+    };
+
+    const setupListReveal = (container, { initial = true } = {}) => {
       if (!container) return;
       if (listObserver) {
         listObserver.disconnect();
@@ -411,61 +465,45 @@
       }
 
       items.forEach((item) => {
-        item.classList.add("spa-reveal-item");
         item.classList.remove("is-revealed", "is-hidden");
         item.style.removeProperty("display");
         item.style.removeProperty("--reveal-delay");
       });
+      revealItems(items);
 
-      const revealBatch = (start) => {
-        const end = Math.min(start + LIST_PAGE_SIZE, items.length);
-        for (let i = start; i < end; i += 1) {
-          const item = items[i];
-          item.classList.remove("is-hidden");
-          item.style.display = "";
-          item.style.setProperty("--reveal-delay", `${(i - start) * 40}ms`);
-          requestAnimationFrame(() => item.classList.add("is-revealed"));
-        }
-        return end;
-      };
-
-      if (items.length > LIST_PAGE_SIZE) {
-        for (let i = LIST_PAGE_SIZE; i < items.length; i += 1) {
-          const item = items[i];
-          item.classList.add("is-hidden");
-          item.classList.remove("is-revealed");
-          item.style.display = "none";
-        }
+      if (initial) {
+        listPagingState.url = container.dataset.listUrl || "";
+        listPagingState.page = 1;
+        listPagingState.loading = false;
+        listPagingState.ended = items.length < LIST_PAGE_SIZE;
+        listPagingState.listEl = list;
       }
 
-      let nextIndex = revealBatch(0);
-
-      if (nextIndex < items.length) {
-        listSentinel = document.createElement("div");
-        listSentinel.className = "spa-reveal-sentinel";
-        list.appendChild(listSentinel);
-
-        const root = (() => {
-          const cs = getComputedStyle(container);
-          const overflowY = cs.overflowY;
-          if (!overflowY || overflowY === "visible") return null;
-          return container;
-        })();
-
-        listObserver = new IntersectionObserver(
-          (entries) => {
-            if (!entries.some((entry) => entry.isIntersecting)) return;
-            const start = nextIndex;
-            nextIndex = revealBatch(start);
-            if (nextIndex >= items.length && listObserver) {
-              listObserver.disconnect();
-              listObserver = null;
-            }
-          },
-          { root, rootMargin: "120px 0px", threshold: 0.01 }
-        );
-        listObserver.observe(listSentinel);
+      if (listPagingState.ended) {
+        requestAnimationFrame(() => container.classList.add("is-list-ready"));
+        return;
       }
+
+      listSentinel = document.createElement("div");
+      listSentinel.className = "spa-reveal-sentinel";
+      list.appendChild(listSentinel);
+
+      const root = (() => {
+        const cs = getComputedStyle(container);
+        const overflowY = cs.overflowY;
+        if (!overflowY || overflowY === "visible") return null;
+        return container;
+      })();
+
+      listObserver = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          if (listPagingState.loading || listPagingState.ended) return;
+          loadNextListPage().catch(console.error);
+        },
+        { root, rootMargin: "160px 0px", threshold: 0.01 }
+      );
+      listObserver.observe(listSentinel);
 
       requestAnimationFrame(() => container.classList.add("is-list-ready"));
     };
@@ -634,13 +672,15 @@
       url = normalizeHref(url);
       if (!url) return;
 
+      resetListPaging();
+      panelListBody.dataset.listUrl = url;
       panelListBody.classList.add("is-list-loading");
       panelListBody.classList.remove("is-list-ready");
 
       if (listCache.has(url)) {
         panelListBody.innerHTML = listCache.get(url);
         panelListBody.classList.remove("is-list-loading");
-        setupListReveal(panelListBody);
+        setupListReveal(panelListBody, { initial: true });
         return;
       }
 
@@ -670,7 +710,7 @@
         listCache.set(url, bodyHTML);
         panelListBody.innerHTML = bodyHTML;
         panelListBody.classList.remove("is-list-loading");
-        setupListReveal(panelListBody);
+        setupListReveal(panelListBody, { initial: true });
       } catch (e) {
         if (e?.name === "AbortError") return;
         console.error(e);
@@ -679,6 +719,63 @@
         panelListBody.classList.add("is-list-ready");
       } finally {
         panelListBody.removeAttribute("aria-busy");
+      }
+    }
+
+    async function loadNextListPage() {
+      if (!listPagingState.url || !listPagingState.listEl) return;
+      if (listPagingState.loading || listPagingState.ended) return;
+
+      listPagingState.loading = true;
+      const nextPage = listPagingState.page + 1;
+      const nextUrl = buildPagedUrl(listPagingState.url, nextPage);
+
+      if (listPageAbort) listPageAbort.abort();
+      listPageAbort = new AbortController();
+
+      try {
+        const res = await fetch(nextUrl, {
+          method: "GET",
+          credentials: "include",
+          signal: listPageAbort.signal,
+          headers: { "X-Requested-With": "XMLHttpRequest" },
+        });
+        if (!res.ok) throw new Error(`List page fetch failed: ${res.status} ${nextUrl}`);
+
+        const html = await res.text();
+        const doc = parser.parseFromString(html, "text/html");
+        const list = doc.querySelector(".prdList");
+        if (!list) {
+          listPagingState.ended = true;
+          return;
+        }
+
+        const items = Array.from(list.children).filter((el) => el.tagName === "LI");
+        if (!items.length) {
+          listPagingState.ended = true;
+          return;
+        }
+
+        const frag = document.createDocumentFragment();
+        const appended = [];
+        items.forEach((item) => {
+          const cloned = document.importNode(item, true);
+          frag.appendChild(cloned);
+          appended.push(cloned);
+        });
+        listPagingState.listEl.appendChild(frag);
+        revealItems(appended);
+
+        listPagingState.page = nextPage;
+        if (items.length < LIST_PAGE_SIZE) {
+          listPagingState.ended = true;
+        }
+      } catch (e) {
+        if (e?.name === "AbortError") return;
+        console.error(e);
+        listPagingState.ended = true;
+      } finally {
+        listPagingState.loading = false;
       }
     }
 
