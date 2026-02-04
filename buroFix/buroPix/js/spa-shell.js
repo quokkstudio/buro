@@ -427,6 +427,10 @@
         clearTimeout(listDeferTimer);
         listDeferTimer = null;
       }
+      if (listAbort) {
+        listAbort.abort();
+        listAbort = null;
+      }
       if (listPageAbort) {
         listPageAbort.abort();
         listPageAbort = null;
@@ -464,7 +468,7 @@
       });
     };
 
-    const waitForImages = (items, timeoutMs = 1200) => {
+    const waitForImages = (items, timeoutMs = 3000) => {
       const images = items
         .flatMap((item) => Array.from(item.querySelectorAll("img")))
         .filter((img) => img && img.src);
@@ -526,6 +530,14 @@
         item.style.removeProperty("--reveal-delay");
       });
       revealItems(items);
+      if (initial) {
+        items.forEach((item) => {
+          item.querySelectorAll("img").forEach((img) => {
+            img.loading = "eager";
+            img.decoding = "async";
+          });
+        });
+      }
 
       if (initial) {
         listPagingState.url = container.dataset.listUrl || "";
@@ -539,6 +551,7 @@
       if (listPagingState.ended) {
         if (initial) {
           waitForImages(items).finally(() => {
+            container.classList.remove("is-list-loading");
             requestAnimationFrame(() => container.classList.add("is-list-ready"));
           });
         } else {
@@ -570,6 +583,7 @@
 
       if (initial) {
         waitForImages(items).finally(() => {
+          container.classList.remove("is-list-loading");
           requestAnimationFrame(() => container.classList.add("is-list-ready"));
         });
       } else {
@@ -749,7 +763,6 @@
 
       if (listCache.has(url)) {
         panelListBody.innerHTML = listCache.get(url);
-        panelListBody.classList.remove("is-list-loading");
         setupListReveal(panelListBody, { initial: true });
         return;
       }
@@ -779,7 +792,6 @@
 
         listCache.set(url, bodyHTML);
         panelListBody.innerHTML = bodyHTML;
-        panelListBody.classList.remove("is-list-loading");
         setupListReveal(panelListBody, { initial: true });
       } catch (e) {
         if (e?.name === "AbortError") return;
@@ -1140,7 +1152,10 @@
               mainWrap.classList.remove("is-list-closed");
               projectListSticky = viewRoot.classList.contains("is-pd");
               if (!panelListBody.firstElementChild && state.listUrl) {
-                loadList(state.listUrl).catch(console.error);
+                panelListBody.innerHTML = "";
+                panelListBody.classList.add("is-list-loading");
+                panelListBody.classList.remove("is-list-ready");
+                scheduleListLoad(state.listUrl);
               }
               pushHash();
               syncListOpenState();
@@ -1156,7 +1171,10 @@
               mainWrap.classList.remove("is-list-closed");
               projectListSticky = viewRoot.classList.contains("is-pd");
               if (!panelListBody.firstElementChild && state.listUrl) {
-                loadList(state.listUrl).catch(console.error);
+                panelListBody.innerHTML = "";
+                panelListBody.classList.add("is-list-loading");
+                panelListBody.classList.remove("is-list-ready");
+                scheduleListLoad(state.listUrl);
               }
             }
 

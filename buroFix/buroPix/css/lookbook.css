@@ -6,16 +6,12 @@
   padding: 10px 20px 12px;
   box-sizing: border-box;
   position: relative;
-  opacity: 1;
-  transition: opacity 0.25s ease;
 }
 
 #panel-list-body.is-list-loading{
-  opacity: 0;
 }
 
 #panel-list-body.is-list-ready{
-  opacity: 1;
 }
 
 #panel-list-body.is-list-loading::before{
@@ -24,12 +20,27 @@
   inset: 0;
   background: #fff;
   opacity: 1;
+  z-index: 2;
   pointer-events: none;
 }
 
 #panel-list-body.is-list-ready::before{
   opacity: 0;
   transition: opacity 0.25s ease;
+}
+
+#panel-list-body > *{
+  position: relative;
+  z-index: 1;
+}
+
+#panel-list-body .prdList{
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+#panel-list-body.is-list-ready .prdList{
+  opacity: 1;
 }
 
 #panel-list-body ul,
