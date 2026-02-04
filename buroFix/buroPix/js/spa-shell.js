@@ -464,6 +464,41 @@
       });
     };
 
+    const waitForImages = (items, timeoutMs = 1200) => {
+      const images = items
+        .flatMap((item) => Array.from(item.querySelectorAll("img")))
+        .filter((img) => img && img.src);
+      if (!images.length) return Promise.resolve();
+
+      const timers = [];
+      const waits = images.map((img) => {
+        if (img.complete) return Promise.resolve();
+        if (typeof img.decode === "function") {
+          const decodePromise = img.decode().catch(() => {});
+          const timeoutPromise = new Promise((resolve) => {
+            const id = setTimeout(resolve, timeoutMs);
+            timers.push(id);
+          });
+          return Promise.race([decodePromise, timeoutPromise]);
+        }
+        return new Promise((resolve) => {
+          const onDone = () => {
+            img.removeEventListener("load", onDone);
+            img.removeEventListener("error", onDone);
+            resolve();
+          };
+          img.addEventListener("load", onDone, { once: true });
+          img.addEventListener("error", onDone, { once: true });
+          const id = setTimeout(onDone, timeoutMs);
+          timers.push(id);
+        });
+      });
+
+      return Promise.all(waits).finally(() => {
+        timers.forEach((id) => clearTimeout(id));
+      });
+    };
+
     const setupListReveal = (container, { initial = true } = {}) => {
       if (!container) return;
       if (listObserver) {
@@ -502,7 +537,13 @@
       }
 
       if (listPagingState.ended) {
-        requestAnimationFrame(() => container.classList.add("is-list-ready"));
+        if (initial) {
+          waitForImages(items).finally(() => {
+            requestAnimationFrame(() => container.classList.add("is-list-ready"));
+          });
+        } else {
+          requestAnimationFrame(() => container.classList.add("is-list-ready"));
+        }
         return;
       }
 
@@ -527,7 +568,13 @@
       );
       listObserver.observe(listSentinel);
 
-      requestAnimationFrame(() => container.classList.add("is-list-ready"));
+      if (initial) {
+        waitForImages(items).finally(() => {
+          requestAnimationFrame(() => container.classList.add("is-list-ready"));
+        });
+      } else {
+        requestAnimationFrame(() => container.classList.add("is-list-ready"));
+      }
     };
 
     const mobileMq = window.matchMedia("(max-width: 1024px)");
