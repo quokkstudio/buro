@@ -169,6 +169,10 @@
   object-position: center;
 }
 
+.pd2-custom-options{
+  display: none !important;
+}
+
 /* 하단 고정 영역 */
 .pd2-bottom{
   min-width:500px;

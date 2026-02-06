@@ -30,6 +30,20 @@
       </div>
     </section>
 
+    <!-- 커스텀옵션 수집(숨김): 이름이 "vimeo url"인 값 추출용 -->
+    <div class="pd2-custom-options" data-pd-custom-options aria-hidden="true">
+      <div module="product_detaildesign">
+        <div class="pd2-custom-row {$item_display|display}" data-pd-custom-row>
+          <span class="pd2-custom-name" data-pd-custom-name>{$item_title}</span>
+          <span class="pd2-custom-value" data-pd-custom-value>{$item_content}</span>
+        </div>
+        <div class="pd2-custom-row {$item_display|display}" data-pd-custom-row>
+          <span class="pd2-custom-name" data-pd-custom-name>{$item_title}</span>
+          <span class="pd2-custom-value" data-pd-custom-value>{$item_content}</span>
+        </div>
+      </div>
+    </div>
+
     <!-- 하단 고정 정보(상품명 + 한줄설명만) -->
     <section class="pd2-bottom" data-pd-bottom>
       <div class="pd2-bottom-inner">

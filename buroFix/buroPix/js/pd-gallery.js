@@ -104,6 +104,65 @@
     });
   }
 
+  function normalizeCustomLabel(value) {
+    return (value || "")
+      .toLowerCase()
+      .replace(/\u00a0/g, " ")
+      .replace(/[\s:_-]+/g, "")
+      .trim();
+  }
+
+  function extractVideoSrcFromCustomOptions(gallery) {
+    if (!gallery) return "";
+    const root = gallery.closest(".product-view") || document;
+    const wrap = root.querySelector("[data-pd-custom-options]");
+    if (!wrap) return "";
+    const rows = wrap.querySelectorAll("[data-pd-custom-row]");
+    if (!rows.length) return "";
+    for (const row of rows) {
+      const nameEl =
+        row.querySelector("[data-pd-custom-name]") || row.querySelector(".pd2-custom-name");
+      const rawName = (nameEl?.textContent || "").trim();
+      if (!rawName) continue;
+      const key = normalizeCustomLabel(rawName);
+      if (key !== "vimeourl" && key !== "vimeo") continue;
+      const valueEl =
+        row.querySelector("[data-pd-custom-value]") || row.querySelector(".pd2-custom-value");
+      if (!valueEl) continue;
+      const link = valueEl.querySelector("a[href]");
+      let value = (link?.getAttribute("href") || valueEl.textContent || "").trim();
+      value = value.replace(/\u00a0/g, " ").trim();
+      if (value) return value;
+    }
+    return "";
+  }
+
+  function pruneEmptyVideoSlides(gallery) {
+    if (!gallery) return;
+    const customSrc = extractVideoSrcFromCustomOptions(gallery);
+    gallery.querySelectorAll(".pd2-slide--video").forEach((slide) => {
+      const attr = (slide.getAttribute("data-video-src") || "").replace(/\u00a0/g, " ").trim();
+      const source = slide.querySelector("source");
+      let src = (attr || (source?.getAttribute("src") || "")).replace(/\u00a0/g, " ").trim();
+      const isPlaceholder =
+        !src || src === "undefined" || src === "null" || src === "{$custom_option1}";
+      if (isPlaceholder && customSrc) {
+        src = customSrc;
+      }
+      const isEmpty =
+        !src ||
+        src === "undefined" ||
+        src === "null" ||
+        src === "{$custom_option1}";
+      if (isEmpty) {
+        slide.remove();
+        return;
+      }
+      slide.setAttribute("data-video-src", src);
+      if (source) source.setAttribute("src", src);
+    });
+  }
+
   function waitForImages(scope, timeoutMs = 1500) {
     if (!scope) return Promise.resolve();
     const imgs = Array.from(scope.querySelectorAll("img"));
@@ -333,6 +392,7 @@
 
     hydrateLazyImages(gallery);
     pruneSmallSlides(gallery);
+    pruneEmptyVideoSlides(gallery);
     syncSlideWidth(gallery);
     observeSlideWidth(gallery);
     normalizeDescription(gallery);
