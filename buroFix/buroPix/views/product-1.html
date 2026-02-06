@@ -19,6 +19,13 @@
             {$add_img}
           </li>
 
+          <!-- 마지막: 영상 (custom_option1 있을 때만 노출) -->
+          <li class="pd2-slide pd2-slide--video splide__slide" data-video-src="{$custom_option1}">
+            <video poster="{$image_big}" playsinline="" loop="" muted="" autoplay="" class="play">
+              <source src="{$custom_option1}" type="video/mp4">
+            </video>
+          </li>
+
         </ul>
       </div>
     </section>
